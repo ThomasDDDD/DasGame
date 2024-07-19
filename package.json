@@ -1,5 +1,5 @@
 {
-  "name": "",
+  "name": "TheGame",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -18,21 +18,16 @@
   "bugs": "",
   "keywords": [],
   "author": {
-    "name": "",
+    "name": "Mr.Takka-T",
     "email": "",
     "url": ""
   },
-  "contributors": [
-
-  ],
+  "contributors": [],
   "scripts": {
     "dev": "",
     "test": ""
   },
   "dependencies": {
-
-  },
-  "devDependencies": {
-
+    "readline-sync": "^1.4.10"
   }
 }

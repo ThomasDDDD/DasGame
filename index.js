@@ -1,16 +1,38 @@
-const canvas = document.querySelector("canvas");
-const cont = canvas.getContext("2d");
+//! Import
 
-canvas.width = 1024;
-canvas.height = 578;
+import { generate } from "./generate.js";
+import { round } from "./round.js";
 
-// console.log(cont);
-cont.fillStyle = "white";
-cont.fillRect(0, 0, canvas.width, canvas.height);
+//! Globale variablen
 
-const image = new Image();
-image.src = `./src/img/background1.png`;
-
-image.onload = () => {
-  cont.drawImage(image, 0, 0);
+export const baseStats = {
+  health: 50,
+  dmg: 7,
+  resi: 0.015,
+  strong: 0.03,
+  elem: ["water", "fire", "electro"],
 };
+export const level = [50, 100];
+
+let roundCount = 0;
+let enemyMultiplier = 1;
+let playerMultiplayer = 1;
+let lost = false;
+
+export let enemyDeck = [];
+export let playerHandDeck = [];
+export let playerRoundDeck = [];
+
+function start() {
+  enemyDeck = generate(enemyDeck, enemyMultiplier);
+  playerRoundDeck = generate(playerRoundDeck, playerMultiplayer);
+  // while (!lost) {
+  round(playerRoundDeck, enemyDeck);
+  //   base(playerRoundDeck, playerHandDeck);
+  // }
+  // console.log(`you are lost...`);
+
+  //console.log(`playerRoundDeck: ${playerRoundDeck}`);
+}
+
+start();
