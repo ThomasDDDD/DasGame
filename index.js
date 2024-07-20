@@ -12,7 +12,7 @@ export const baseStats = {
   strong: 0.03,
   elem: ["water", "fire", "electro"],
 };
-export const level = [50, 100];
+const level = [50, 100];
 
 let roundCount = 0;
 let enemyMultiplier = 1;
@@ -24,8 +24,8 @@ export let playerHandDeck = [];
 export let playerRoundDeck = [];
 
 function start() {
-  enemyDeck = generate(enemyDeck, enemyMultiplier);
-  playerRoundDeck = generate(playerRoundDeck, playerMultiplayer);
+  enemyDeck = generate(enemyDeck, enemyMultiplier, level);
+  playerRoundDeck = generate(playerRoundDeck, playerMultiplayer, level);
   // while (!lost) {
   round(playerRoundDeck, enemyDeck);
   //   base(playerRoundDeck, playerHandDeck);
