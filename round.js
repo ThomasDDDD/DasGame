@@ -1,6 +1,6 @@
 import rs from "readline-sync";
 //* next import nur für test:
-import { playerHandDeck, playerRoundDeck, enemyDeck } from "./index.js";
+import { playerHandDeck, playerRoundDeck, enemyDeck, baseStats, lost } from "./index.js";
 
 //! Kampfrunde
 
@@ -12,16 +12,43 @@ export function round(playerRoundDeck, enemyDeck) {
 
   let playerCard = {};
   let enemyCard = {};
+  while (playerRoundDeck.length > 0 && enemyDeck.length > 0) {
+    // console.log(`The Rest of your Round Deck:`);
+    // console.log(playerRoundDeck);
+    // console.log(`You fill up your Handdeck:`);
+    // console.log(playerHandDeck);
+    // console.log(`The Enemy Deck`);
+    // console.log(enemyDeck);
 
-  playerCard = playerChoise(playerRoundDeck, enemyCard);
-  enemyCard = enemyChoise(enemyDeck, playerCard);
+    playerCard = playerChoise(playerRoundDeck, enemyCard);
+    enemyCard = enemyChoise(enemyDeck, playerCard);
 
-  fightPlayerVsEnemy(playerCard, enemyCard);
+    fightPlayerVsEnemy(playerCard, enemyCard);
+    if (playerRoundDeck.length === 0 || enemyDeck.length === 0) {
+      break;
+    }
+    console.log(`The Rest of your Round Deck:`);
+    console.log(playerRoundDeck);
+    console.log(`You fill up your Handdeck:`);
+    console.log(playerHandDeck);
+    console.log(`The Enemy Deck`);
+    console.log(enemyDeck);
 
-  enemyCard = enemyChoise(enemyDeck, playerCard);
-  playerCard = playerChoise(playerRoundDeck, enemyCard);
+    enemyCard = enemyChoise(enemyDeck, playerCard);
+    playerCard = playerChoise(playerRoundDeck, enemyCard);
 
-  //figthEnemyVsPlayer(playerCard, enemyCard);
+    fightEnemyVsPlayer(playerCard, enemyCard);
+  }
+  statReset(playerRoundDeck, playerHandDeck);
+
+  if (playerRoundDeck.length === 0) {
+    console.log(`YOU LOOOOOOOOOSE`);
+    lost = true;
+  } else {
+    console.log(`You WON THIS ROUND`);
+    round++;
+    statReset(playerRoundDeck, playerHandDeck);
+  }
 
   //!...hier gehts weiter...
 }
@@ -118,35 +145,86 @@ function enemyChoise(enemyDeck, playerCard) {
 function fightPlayerVsEnemy(playerCard, enemyCard) {
   let playerCardCopy = { ...playerCard };
   let enemyCardCopy = { ...enemyCard };
-
-  //* multiplier für klasse ermitteln
-  let typMulti = 1;
-  if (
-    (playerCard.typ === "fire" && enemyCard.typ === "water") ||
-    (playerCard.typ === "water" && enemyCard.typ === "electro") ||
-    (playerCard.typ === "electro" && enemyCard.typ === "fire")
-  ) {
-    typMulti = 0.8;
-  } else if (playerCard.typ === enemyCard.typ) {
-    typMulti = 1;
-  } else {
-    typMulti = 1.2;
-  }
+  const typMultiplier = typMulti(playerCard, enemyCard);
 
   //* Kampfhandlung
   while (playerCardCopy.hp > 0 && enemyCardCopy.hp > 0) {
-    let hit = Number(((playerCardCopy.dmg * playerCardCopy.strong * typMulti) / enemyCardCopy.resi).toFixed(3));
+    let hit = Number(((playerCardCopy.dmg * playerCardCopy.strong * typMultiplier) / enemyCardCopy.resi).toFixed(3));
     console.log(`you hit with ${hit} DMG`);
     enemyCardCopy.hp -= hit;
     if (enemyCardCopy.hp <= 0) {
       break;
     }
-    hit = Number(((enemyCardCopy.dmg * enemyCardCopy.strong) / typMulti / playerCardCopy.resi).toFixed(3));
+    hit = Number(((enemyCardCopy.dmg * enemyCardCopy.strong * typMultiplier) / playerCardCopy.resi).toFixed(3));
     console.log(`you got a hit with ${hit} DMG`);
     playerCardCopy.hp -= hit;
   }
 
   //* Karten verbrennen oder in handdeck umschichten. globales Deck aktuallisieren.
+  cardSortAfterFight(enemyCardCopy, enemyCard, playerCardCopy, playerCard);
+
+  //* gwählten Karten für den Spielzug der runde reseten
+  playerCard = {};
+  enemyCard = {};
+  // console.log(playerCardCopy);
+  // console.log(enemyCardCopy);
+  // console.log(playerHandDeck);
+  // console.log(playerRoundDeck);
+  // console.log(enemyDeck);
+}
+
+//* ein Kampf enemy vs. player
+
+function fightEnemyVsPlayer(playerCard, enemyCard) {
+  let playerCardCopy = { ...playerCard };
+  let enemyCardCopy = { ...enemyCard };
+  const typMultiplier = typMulti(playerCard, enemyCard);
+
+  //* Kampfhandlung
+  while (playerCardCopy.hp > 0 && enemyCardCopy.hp > 0) {
+    let hit = Number(((enemyCardCopy.dmg * enemyCardCopy.strong * typMultiplier) / playerCardCopy.resi).toFixed(3));
+    console.log(`you got a hit with ${hit} DMG`);
+    playerCardCopy.hp -= hit;
+    if (playerCardCopy.hp <= 0) {
+      break;
+    }
+    hit = Number(((playerCardCopy.dmg * playerCardCopy.strong * typMultiplier) / enemyCardCopy.resi).toFixed(3));
+    console.log(`you hit with ${hit} DMG`);
+    enemyCardCopy.hp -= hit;
+  }
+
+  //* Karten verbrennen oder in handdeck umschichten. globales Deck aktuallisieren.
+  cardSortAfterFight(enemyCardCopy, enemyCard, playerCardCopy, playerCard);
+
+  //* gwählten Karten für den Spielzug der runde reseten
+  playerCard = {};
+  enemyCard = {};
+  // console.log(playerCardCopy);
+  // console.log(enemyCardCopy);
+  // console.log(playerHandDeck);
+  // console.log(playerRoundDeck);
+  // console.log(enemyDeck);
+}
+
+//? Einzelfuntionen:
+
+//* multiplier für klasse ermitteln
+function typMulti(playerCard, enemyCard) {
+  if (
+    (playerCard.typ === "fire" && enemyCard.typ === "water") ||
+    (playerCard.typ === "water" && enemyCard.typ === "electro") ||
+    (playerCard.typ === "electro" && enemyCard.typ === "fire")
+  ) {
+    return 0.8;
+  } else if (playerCard.typ === enemyCard.typ) {
+    return 1;
+  } else {
+    return 1.2;
+  }
+}
+
+//* Karten nach Einzelkampf umschlichten
+function cardSortAfterFight(enemyCardCopy, enemyCard, playerCardCopy, playerCard) {
   if (enemyCardCopy.hp <= 0) {
     console.log(`Sieg -> Du bekommst ${enemyCard.name} in dein Handdeck.`);
     playerHandDeck.push(enemyCard);
@@ -161,11 +239,14 @@ function fightPlayerVsEnemy(playerCard, enemyCard) {
     index = enemyDeck.findIndex((card) => card.name === enemyCard.name);
     enemyDeck.splice(index, 1, enemyCardCopy);
   }
-  playerCard = {};
-  enemyCard = {};
-  // console.log(playerCardCopy);
-  // console.log(enemyCardCopy);
-  // console.log(playerHandDeck);
-  // console.log(playerRoundDeck);
-  // console.log(enemyDeck);
+}
+
+function statReset(playerRoundDeck, playerHandDeck) {
+  const { health } = baseStats;
+  for (let card of playerRoundDeck) {
+    card.hp = health * card.statPointsArr[0];
+  }
+  for (let card of playerHandDeck) {
+    card.hp = health * card.statPointsArr[0];
+  }
 }

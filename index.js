@@ -17,8 +17,8 @@ const level = [50, 100];
 let roundCount = 0;
 let enemyMultiplier = 1;
 let playerMultiplayer = 1;
-let lost = false;
 
+export let lost = false;
 export let enemyDeck = [];
 export let playerHandDeck = [];
 export let playerRoundDeck = [];
@@ -28,8 +28,16 @@ function start() {
   playerRoundDeck = generate(playerRoundDeck, playerMultiplayer, level);
   // while (!lost) {
   round(playerRoundDeck, enemyDeck);
+
+  console.log(`The Rest of your Round Deck:`);
+  console.log(playerRoundDeck);
+  console.log(`You fill up your Handdeck:`);
+  console.log(playerHandDeck);
+  console.log(`The Enemy Deck`);
+  console.log(enemyDeck);
+
   //   base(playerRoundDeck, playerHandDeck);
-  // }
+  //}
   // console.log(`you are lost...`);
 
   //console.log(`playerRoundDeck: ${playerRoundDeck}`);
