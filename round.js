@@ -1,8 +1,10 @@
 import rs from "readline-sync";
 //* next import nur für test:
-import { playerHandDeck, playerRoundDeck, enemyDeck, baseStats, lost } from "./index.js";
+import { playerHandDeck, playerRoundDeck, enemyDeck, baseStats, lost, roundCount } from "./index.js";
 
 //! Kampfrunde
+
+//* eine Runde solange Gegner oder Spieler noch karten im Kampf haben
 
 export function round(playerRoundDeck, enemyDeck) {
   console.log(`Gegner Deck: `);
@@ -13,13 +15,6 @@ export function round(playerRoundDeck, enemyDeck) {
   let playerCard = {};
   let enemyCard = {};
   while (playerRoundDeck.length > 0 && enemyDeck.length > 0) {
-    // console.log(`The Rest of your Round Deck:`);
-    // console.log(playerRoundDeck);
-    // console.log(`You fill up your Handdeck:`);
-    // console.log(playerHandDeck);
-    // console.log(`The Enemy Deck`);
-    // console.log(enemyDeck);
-
     playerCard = playerChoise(playerRoundDeck, enemyCard);
     enemyCard = enemyChoise(enemyDeck, playerCard);
 
@@ -27,26 +22,34 @@ export function round(playerRoundDeck, enemyDeck) {
     if (playerRoundDeck.length === 0 || enemyDeck.length === 0) {
       break;
     }
-    console.log(`The Rest of your Round Deck:`);
-    console.log(playerRoundDeck);
-    console.log(`You fill up your Handdeck:`);
-    console.log(playerHandDeck);
     console.log(`The Enemy Deck`);
     console.log(enemyDeck);
+    console.log(`You fill up your Handdeck:`);
+    console.log(playerHandDeck);
+    console.log(`The Rest of your Round Deck:`);
+    console.log(playerRoundDeck);
 
     enemyCard = enemyChoise(enemyDeck, playerCard);
     playerCard = playerChoise(playerRoundDeck, enemyCard);
 
     fightEnemyVsPlayer(playerCard, enemyCard);
+
+    console.log(`The Enemy Deck`);
+    console.log(enemyDeck);
+    console.log(`You fill up your Handdeck:`);
+    console.log(playerHandDeck);
+    console.log(`The Rest of your Round Deck:`);
+    console.log(playerRoundDeck);
   }
-  statReset(playerRoundDeck, playerHandDeck);
+  //statReset(playerRoundDeck, playerHandDeck);
 
   if (playerRoundDeck.length === 0) {
     console.log(`YOU LOOOOOOOOOSE`);
-    lost = true;
+    lost.push(1);
+    // Hier muss noch ne bestenlisten export rein
   } else {
     console.log(`You WON THIS ROUND`);
-    round++;
+    roundCount.push(1);
     statReset(playerRoundDeck, playerHandDeck);
   }
 
@@ -63,7 +66,6 @@ function playerChoise(playerRoundDeck, enemyCard) {
   for (let card of playerRoundDeck) {
     auswahl.push(card.name);
   }
-
   const kartenWahl = playerRoundDeck[rs.keyInSelect(auswahl, `\nBitte wähle eine Karte für den Kampf: `)];
 
   console.log(`Du schickst ${kartenWahl.name} in den Kampf!`);
@@ -130,7 +132,7 @@ function enemyChoise(enemyDeck, playerCard) {
     }
   } else {
     for (let card of enemyDeck) {
-      if (kartenWahl.level <= card.level || kartenWahl.hp + kartenWahl.dmg <= card.hp + card.dmg) {
+      if (kartenWahl.level <= card.level || kartenWahl.hp + kartenWahl.dmg < card.hp + card.dmg) {
         kartenWahl = card;
       }
     }
@@ -140,7 +142,7 @@ function enemyChoise(enemyDeck, playerCard) {
   return kartenWahl;
 }
 
-//* ein Kampf player vs enemy
+//* ein Kampf: player vs enemy
 
 function fightPlayerVsEnemy(playerCard, enemyCard) {
   let playerCardCopy = { ...playerCard };
@@ -159,7 +161,6 @@ function fightPlayerVsEnemy(playerCard, enemyCard) {
     console.log(`you got a hit with ${hit} DMG`);
     playerCardCopy.hp -= hit;
   }
-
   //* Karten verbrennen oder in handdeck umschichten. globales Deck aktuallisieren.
   cardSortAfterFight(enemyCardCopy, enemyCard, playerCardCopy, playerCard);
 
@@ -173,7 +174,7 @@ function fightPlayerVsEnemy(playerCard, enemyCard) {
   // console.log(enemyDeck);
 }
 
-//* ein Kampf enemy vs. player
+//* ein Kampf: enemy vs. player
 
 function fightEnemyVsPlayer(playerCard, enemyCard) {
   let playerCardCopy = { ...playerCard };
@@ -241,7 +242,8 @@ function cardSortAfterFight(enemyCardCopy, enemyCard, playerCardCopy, playerCard
   }
 }
 
-function statReset(playerRoundDeck, playerHandDeck) {
+//* am Rundenende stats der überlebten karten reseten
+export function statReset(playerRoundDeck, playerHandDeck) {
   const { health } = baseStats;
   for (let card of playerRoundDeck) {
     card.hp = health * card.statPointsArr[0];
