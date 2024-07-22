@@ -13,29 +13,20 @@ export function generate(deck, multi = 1, level) {
 
   //* einmal duch das Kartendeck map'en und pro Karte die Stats berechnen
   //* und einen Namen generieren
+  //* den Karten mit den statPoints über die baseStats ihre stats berechnen
   //console.log(deck);
   deck = deck.map((card) => {
     cardStatPoints(card);
     cardNamesGenerator(card);
+    statCalculate(card);
     return card;
   });
-
-  //* den Karten mit den statPoints über die baseStats ihre stats berechnen
-  //console.log(deck);
-  const { health, dmg, resi, strong, elem } = baseStats;
-  for (let card of deck) {
-    card.hp = health * card.statPointsArr[0];
-    card.dmg = dmg * card.statPointsArr[1];
-    card.resi = Number((Math.floor(resi * card.statPointsArr[2] * 1000) / 1000 + 1).toFixed(3));
-    card.strong = Number((Math.floor(strong * card.statPointsArr[3] * 1000) / 1000 + 1).toFixed(3));
-    card.typ = elem[Math.floor(Math.random() * 3)];
-  }
   //*das fertige Deck zurück geben..
-  //console.log(deck);
   return deck;
 }
 
 //* die statPoints werden anhand des random levels random verteilt
+
 function cardStatPoints(card) {
   card.statPointsArr = [0, 0, 0, 0];
   let points = card.level;
@@ -48,8 +39,10 @@ function cardStatPoints(card) {
   }
   // console.log(card);
 }
+
 //* Namensgenerator
-function cardNamesGenerator(card) {
+
+export function cardNamesGenerator(card) {
   const consonanten = "bdfghklmnprstwz";
   const vokal = "aeiou";
   card.name = "";
@@ -59,4 +52,15 @@ function cardNamesGenerator(card) {
     }`;
   }
   card.name = card.name[0].toUpperCase() + card.name.slice(1).toLowerCase();
+}
+
+//* Stats werden berechnet
+
+export function statCalculate(card) {
+  const { health, dmg, resi, strong, elem } = baseStats;
+  card.hp = health * card.statPointsArr[0];
+  card.dmg = dmg * card.statPointsArr[1];
+  card.resi = Number((Math.floor(resi * card.statPointsArr[2] * 1000) / 1000 + 1).toFixed(3));
+  card.strong = Number((Math.floor(strong * card.statPointsArr[3] * 1000) / 1000 + 1).toFixed(3));
+  card.typ = elem[Math.floor(Math.random() * 3)];
 }

@@ -1,5 +1,6 @@
 //! import:
 import rs from "readline-sync";
+import { cardNamesGenerator, statCalculate } from "./generate.js";
 
 //*...
 
@@ -41,7 +42,7 @@ export function base(playerRoundDeck, playerHandDeck) {
     }
   }
   choseRoundDeck(playerRoundDeck, playerHandDeck);
-  console.log(playerRoundDeck);
+  //console.log(playerRoundDeck);
   return playerRoundDeck;
 
   //*
@@ -81,7 +82,74 @@ function burnCards(playerHandDeck) {
 //* karten paaren
 
 function mateCards(playerHandDeck) {
-  console.log(`hier könnte ihre werbung stehen`);
+  let cardAuswahl = [];
+  const yesNo = ["YES", "NO", "Abbrechen"];
+  let sure = 1;
+  let kartenWahlToPair = [];
+
+  while (sure === 1) {
+    if (kartenWahlToPair.length > 0) {
+      for (let card of kartenWahlToPair) {
+        playerHandDeck.push(card);
+      }
+      kartenWahlToPair = [];
+    }
+
+    while (kartenWahlToPair.length < 2) {
+      console.log(playerHandDeck);
+
+      cardAuswahl = [];
+      for (let card of playerHandDeck) {
+        cardAuswahl.push(card.name);
+      }
+
+      let index = rs.keyInSelect(cardAuswahl, `\nBitte wähle eine Karte die du Paaren möchtest: `);
+      kartenWahlToPair.push(playerHandDeck[index]);
+      playerHandDeck.splice(index, 1);
+      cardAuswahl.splice(index, 1);
+    }
+    console.log(kartenWahlToPair);
+    sure = rs.keyInSelect(
+      yesNo,
+      `bist du dir sicher das du ${kartenWahlToPair[0].name} und ${kartenWahlToPair[1].name} miteinander paaren möchtest?`
+    );
+    if (sure === 1) {
+      console.log(`dann wähle zwei andere Karten: `);
+      continue;
+    } else if (sure === 2) {
+      for (let card of kartenWahlToPair) {
+        playerHandDeck.push(card);
+      }
+      kartenWahlToPair = [];
+      break;
+    }
+  }
+  if (sure === 0) {
+    const newCard = mate(kartenWahlToPair);
+    playerHandDeck.push(newCard);
+  }
+}
+//* paaren:
+
+function mate(kartenWahlToPair) {
+  console.log(kartenWahlToPair);
+  const newCard = {};
+  const newStatPointsArr = [];
+  for (let i = 0; i < 4; i++) {
+    newStatPointsArr.push(
+      kartenWahlToPair[0].statPointsArr[i] > kartenWahlToPair[1].statPointsArr[i]
+        ? kartenWahlToPair[0].statPointsArr[i]
+        : kartenWahlToPair[1].statPointsArr[i]
+    );
+  }
+  newCard.level = 0;
+  newCard.statPointsArr = newStatPointsArr;
+  for (let stat of newStatPointsArr) {
+    newCard.level += stat;
+  }
+  cardNamesGenerator(newCard);
+  statCalculate(newCard);
+  return newCard;
 }
 
 //* Rundenkarten für nächste Runde wählen
@@ -111,6 +179,7 @@ function choseRoundDeck(playerRoundDeck, playerHandDeck) {
       for (let card of playerHandDeck) {
         cardAuswahl.push(card.name);
       }
+
       const cardForRound =
         playerHandDeck[
           rs.keyInSelect(
@@ -118,12 +187,13 @@ function choseRoundDeck(playerRoundDeck, playerHandDeck) {
             `Wähle eine Karte die du mit in die nächste Runde nehmen möchtest! Du musst 3 Karten wählen:`
           )
         ];
+
       let index = playerHandDeck.findIndex((card) => card.name === cardForRound.name);
       playerRoundDeck.push(cardForRound);
       playerHandDeck.splice(index, 1);
     }
     console.log(playerRoundDeck);
     sure = rs.keyInSelect(yesNo, `Bist du mit deiner Auswahl zufrieden?`);
-    console.log(sure);
+    //console.log(sure);
   }
 }

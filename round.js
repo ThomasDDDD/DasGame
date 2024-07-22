@@ -52,8 +52,6 @@ export function round(playerRoundDeck, enemyDeck) {
     roundCount.push(1);
     statReset(playerRoundDeck, playerHandDeck);
   }
-
-  //!...hier gehts weiter...
 }
 
 //* Spieler wählt über ReadlineSync.KeyInSelect aus seinem Deck eine Karte für den Kampf:

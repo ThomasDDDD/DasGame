@@ -1,0 +1,33 @@
+Spieler Deck:  
+[
+  {
+    level: 135,
+    statPointsArr: [ 34, 34, 31, 36 ],
+    name: 'Zebibawa',
+    hp: 1700,
+    dmg: 238,
+    resi: 1.464,
+    strong: 2.08,
+    typ: 'water'
+  },
+  {
+    level: 131,
+    statPointsArr: [ 34, 32, 35, 30 ],
+    name: 'Watarulu',
+    hp: 1700,
+    dmg: 224,
+    resi: 1.525,
+    strong: 1.899,
+    typ: 'water'
+  },
+  {
+    level: 125,
+    statPointsArr: [ 34, 34, 28, 29 ],
+    name: 'Misalubo',
+    hp: 1700,
+    dmg: 238,
+    resi: 1.42,
+    strong: 1.87,
+    typ: 'water'
+  }
+]
