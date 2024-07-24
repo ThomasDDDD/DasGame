@@ -1,9 +1,26 @@
 //! Import
 import rs from "readline-sync";
+import fs from "fs";
 
 import { generate } from "./generate.js";
 import { round } from "./round.js";
 import { base } from "./base.js";
+
+//! for FileSystem - Bestenliste:
+
+const filePath = "./Bestenliste.txt";
+if (!fs.existsSync(filePath)) {
+  fs.writeFileSync(
+    filePath,
+    `\n==========================\n=====Bestenliste=====\n==========================\n`,
+    (err) => {
+      if (err) {
+        console.error("Error during file creation.");
+        return;
+      }
+    }
+  );
+}
 
 //! Globale variablen
 
@@ -20,16 +37,20 @@ export let enemyDeck = [];
 export let playerHandDeck = [];
 export let playerRoundDeck = [];
 
-const level = [50, 100];
-let enemyMultiplier = 1 + roundCount.length / 20;
-let playerMultiplier = 1;
+export let level = [50, 100];
+export let enemyMultiplier = 5;
+export let playerMultiplier = 1;
 
-//! PROGRAMM STARTET HIER
+//! PROGRAMM STARTET HIER - Spielablauf
 
 function start() {
-  //spielerName = rs.question(`Wie ist dein Name junger Padawan?`);
-  enemyDeck = generate(enemyDeck, enemyMultiplier, level);
-  playerRoundDeck = generate(playerRoundDeck, playerMultiplier, level);
+  let spielerName = rs.question(`Wie ist dein Name junger Padawan?`);
+  spielerName = spielerName[0].toUpperCase() + spielerName.slice(1).toLowerCase();
+
+  enemyDeck = generate(enemyDeck, level);
+
+  playerRoundDeck = generate(playerRoundDeck, level);
+
   let playerRoundDeckCopy = [];
 
   while (lost.length === 0) {
@@ -43,10 +64,29 @@ function start() {
     }
     playerRoundDeckCopy = base(playerRoundDeck, playerHandDeck);
     //console.log(playerRoundDeckCopy);
-    enemyDeck = generate(enemyDeck, enemyMultiplier, level);
+    console.log(level);
+    enemyDeck = generate(enemyDeck, level);
   }
   console.log(`you are lost...but nice try...`);
+  const rounds = roundCount.reduce((acc, num) => {
+    return acc + num;
+  }, 0);
+  const lastSet = bestListGenerate(spielerName, rounds, playerRoundDeckCopy, playerHandDeck);
+  fs.appendFileSync(filePath, lastSet);
   //bestenliste irgendwie bauen
+}
+
+//* generiere Text für bestenliste
+
+function bestListGenerate(spielerName, round, playerRoundDeckCopy, playerHandDeck) {
+  return (
+    `\n============================================================\n${spielerName} ist in der ${
+      round + 1
+    }. Runde gestorben.\n\nDas letztes Kampfset : ` +
+    playerRoundDeckCopy +
+    `\n\nFolgende Karten lagen noch in der Hand: ` +
+    playerHandDeck
+  );
 }
 
 start();

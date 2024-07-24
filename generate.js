@@ -3,17 +3,18 @@ import { enemyDeck, baseStats } from "./index.js";
 //*to test the file:
 //*generate(enemyDeck);
 
-export function generate(deck, multi = 1, level) {
+export function generate(deck, level) {
   //*  3 Karten mit Random level werden erzeugt
   for (let i = 0; i < 3; i++) {
     if (deck.length <= 3) {
-      deck.push({ level: Math.ceil((Math.random() * (level[1] - level[0]) + level[0]) * multi) });
+      deck.push({ level: Math.ceil(Math.random() * (level[1] - level[0]) + level[0]) });
     }
   }
 
   //* einmal duch das Kartendeck map'en und pro Karte die Stats berechnen
   //* und einen Namen generieren
   //* den Karten mit den statPoints über die baseStats ihre stats berechnen
+  //* den Karten einen namen generieren
   //console.log(deck);
   deck = deck.map((card) => {
     cardStatPoints(card);

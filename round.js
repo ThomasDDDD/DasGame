@@ -1,6 +1,15 @@
 import rs from "readline-sync";
 //* next import nur für test:
-import { playerHandDeck, playerRoundDeck, enemyDeck, baseStats, lost, roundCount } from "./index.js";
+import {
+  playerHandDeck,
+  playerRoundDeck,
+  enemyDeck,
+  baseStats,
+  lost,
+  roundCount,
+  level,
+  enemyMultiplier,
+} from "./index.js";
 
 //! Kampfrunde
 
@@ -51,6 +60,7 @@ export function round(playerRoundDeck, enemyDeck) {
     console.log(`You WON THIS ROUND`);
     roundCount.push(1);
     statReset(playerRoundDeck, playerHandDeck);
+    changeLevel(level, enemyMultiplier);
   }
 }
 
@@ -207,7 +217,7 @@ function fightEnemyVsPlayer(playerCard, enemyCard) {
 
 //? Einzelfuntionen:
 
-//* multiplier für klasse ermitteln
+//* multiplier für klasse gegen Klasse ermitteln
 function typMulti(playerCard, enemyCard) {
   if (
     (playerCard.typ === "fire" && enemyCard.typ === "water") ||
@@ -249,4 +259,9 @@ export function statReset(playerRoundDeck, playerHandDeck) {
   for (let card of playerHandDeck) {
     card.hp = health * card.statPointsArr[0];
   }
+}
+//* für Kartengenerator den level Array nach Runde erhöhen
+
+function changeLevel(levelIn, multi) {
+  level.splice(0, 2, levelIn[0] + multi, levelIn[1] + multi);
 }
