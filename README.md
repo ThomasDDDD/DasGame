@@ -1,3 +1,3 @@
 # TheGame
 
-![Entwurf: Phase 1](./src/img/Entwurf.png)
+![Entwurf: Phase 1](./Entwurf.png)
