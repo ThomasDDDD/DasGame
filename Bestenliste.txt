@@ -4,21 +4,149 @@
 =========================
 
 =================================
-Hansi ist in der 8. Runde gestorben.
-Das letztes Kampfset: 
-Die übrigen Handkarten: 
-===Zonusodu===
-=Level: 130=
-=HP: 46.25999999999988=
-DMG: 266=
-=Resistance: 1.449=
-=Power:1.54=
+Test1 ist in der 3. Runde gestorben.
+
+Das letztes Kampfset:
+
+===Misilewu===
+==Level: 61==
+===HP: 550===
+===DMG: 119===
+=Resi: 1.255=
+=Power: 1.48=
+===fire===
+
+===Zudosamo===
+==Level: 96==
+===HP: 1500===
+===DMG: 112===
+=Resi: 1.404=
+=Power: 1.69=
 ===water===
 
-===Bamude===
-=Level: 108=
-=HP: 2050=
-DMG: 217=
-=Resistance: 1.345=
-=Power:1.39=
+===Demeki===
+==Level: 101==
+===HP: 1250===
+===DMG: 182===
+=Resi: 1.525=
+=Power: 1.449=
+===water===
+
+Die übrigen Handkarten:
+
+===Motelabe===
+==Level: 81==
+===P: 2100===
+===DMG: 105===
+=Resi: 1.164=
+=Power: 1.39=
+===water===
+
+===Tudewoge===
+==Level: 64==
+===P: 1250===
+===DMG: 119===
+=Resi: 1.135=
+=Power: 1.39=
 ===electro===
+
+=================================
+Test2 ist in der 1. Runde gestorben.
+
+Das letztes Kampfset:
+
+Die übrigen Handkarten:
+
+===Pobebe===
+==Level: 56==
+===HP: 900===
+===DMG: 126===
+=Resi: 1.224 =
+=Power: 1.15=
+====fire====
+
+===Manisa===
+==Level: 96==
+===HP: 1600===
+===DMG: 168===
+=Resi: 1.329 =
+=Power: 1.54=
+====fire====
+
+=================================
+Test4 ist in der 2. Runde gestorben.
+
+Das letztes Kampfset:
+
+===Tetado===
+==Level: 62==
+===HP: 750===
+===DMG: 140===
+=Resi: 1.164 =
+=Power: 1.48 =
+====electro====
+
+===Wumazemi===
+==Level: 87==
+===HP: 1200===
+===DMG: 133===
+=Resi: 1.39 =
+=Power: 1.54 =
+====water====
+
+===Hiwuzi===
+==Level: 81==
+===HP: 950===
+===DMG: 133===
+=Resi: 1.39 =
+=Power: 1.51 =
+====electro====
+
+Die übrigen Handkarten:
+
+===Bibopodu===
+==Level: 98==
+===HP: 1400===
+===DMG: 168===
+=Resi: 1.42 =
+=Power: 1.54=
+====fire====
+
+=================================
+Test5 ist in der 7. Runde gestorben.
+
+Das letztes Kampfset:
+
+===Nugetimi===
+==Level: 84==
+===HP: 1450===
+===DMG: 189===
+=Resi:   1.24=
+=Power:  1.36=
+====fire====
+
+===Huruhutu===
+==Level: 117==
+===HP: 1900===
+===DMG: 231===
+=Resi:   1.42=
+=Power:  1.54=
+====electro====
+
+===Femisa===
+==Level: 108==
+===HP: 1250===
+===DMG: 203===
+=Resi:   1.3=
+=Power:  2.02=
+====electro====
+
+Die übrigen Handkarten:
+
+===Wohogu===
+==Level: 114==
+===HP: 1600===
+===DMG: 245===
+=Resi:  1.135=
+=Power:  2.14=
+====fire====

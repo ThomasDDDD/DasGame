@@ -3,7 +3,7 @@ import rs from "readline-sync";
 import fs from "fs";
 
 import { generate } from "./generate.js";
-import { round } from "./round.js";
+import { round, statReset } from "./round.js";
 import { base } from "./base.js";
 
 //! for FileSystem - Bestenliste:
@@ -55,7 +55,7 @@ function start() {
 
   while (lost.length === 0) {
     if (playerRoundDeckCopy.length > 0) {
-      playerRoundDeck = playerRoundDeckCopy;
+      playerRoundDeck = [...playerRoundDeckCopy];
     }
     round(playerRoundDeck, enemyDeck);
     //console.log(lost);
@@ -72,31 +72,32 @@ function start() {
     return acc + num;
   }, 0);
   const lastSet = bestListGenerate(spielerName, rounds, playerRoundDeckCopy, playerHandDeck);
-  fs.appendFileSync(filePath, lastSet);
+  if (rounds >= 1) {
+    fs.appendFileSync(filePath, lastSet);
+  }
   //bestenliste irgendwie bauen
 }
 
 //* generiere Text für bestenliste
 
 function bestListGenerate(spielerName, round, playerRoundDeckCopy, playerHandDeck) {
-  console.log(playerRoundDeckCopy);
-  console.log(playerHandDeck);
+  statReset(playerRoundDeckCopy, playerHandDeck);
   let playerRD = "";
   for (let card of playerRoundDeckCopy) {
-    playerRD += `\n===${card.name}===\n==Level: ${card.level}==\n==HP: ${Math.round(card.hp * 100) / 100}==\n==DMG: ${
-      card.dmg
-    }==\n=Resi: ${card.resi}=\n=Power:${card.strong}=\n===${card.typ}===\n`;
+    playerRD += `\n===${card.name}===\n==Level: ${card.level}==\n===HP: ${
+      Math.round(card.hp * 100) / 100
+    }===\n===DMG: ${card.dmg}===\n=Resi:   ${card.resi}=\n=Power:  ${card.strong}=\n====${card.typ}====\n`;
   }
   let playerHD = "";
   for (let card of playerHandDeck) {
-    playerHD += `\n===${card.name}===\n=Level: ${card.level}=\n=HP: ${Math.round(card.hp * 100) / 100}=\n=DMG: ${
-      card.dmg
-    }=\n=Resi: ${card.resi}=\n=Power:${card.strong}=\n===${card.typ}===\n`;
+    playerHD += `\n===${card.name}===\n==Level: ${card.level}==\n===HP: ${
+      Math.round(card.hp * 100) / 100
+    }===\n===DMG: ${card.dmg}===\n=Resi:  ${card.resi}=\n=Power:  ${card.strong}=\n====${card.typ}====\n`;
   }
 
   return `\n=================================\n${spielerName} ist in der ${
     round + 1
-  }. Runde gestorben.\nDas letztes Kampfset: ${playerRD}\nDie übrigen Handkarten: ${playerHD}`;
+  }. Runde gestorben.\n\nDas letztes Kampfset:\n${playerRD}\nDie übrigen Handkarten:\n${playerHD}`;
 }
 
 start();
