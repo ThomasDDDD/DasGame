@@ -12,7 +12,7 @@ const filePath = "./Bestenliste.txt";
 if (!fs.existsSync(filePath)) {
   fs.writeFileSync(
     filePath,
-    `\n==========================\n=====Bestenliste=====\n==========================\n`,
+    `\n=========================\n=======Bestenliste=======\n=========================\n`,
     (err) => {
       if (err) {
         console.error("Error during file creation.");
@@ -79,14 +79,24 @@ function start() {
 //* generiere Text für bestenliste
 
 function bestListGenerate(spielerName, round, playerRoundDeckCopy, playerHandDeck) {
-  return (
-    `\n============================================================\n${spielerName} ist in der ${
-      round + 1
-    }. Runde gestorben.\n\nDas letztes Kampfset : ` +
-    playerRoundDeckCopy +
-    `\n\nFolgende Karten lagen noch in der Hand: ` +
-    playerHandDeck
-  );
+  console.log(playerRoundDeckCopy);
+  console.log(playerHandDeck);
+  let playerRD = "";
+  for (let card of playerRoundDeckCopy) {
+    playerRD += `\n===${card.name}===\n==Level: ${card.level}==\n==HP: ${Math.round(card.hp * 100) / 100}==\n==DMG: ${
+      card.dmg
+    }==\n=Resi: ${card.resi}=\n=Power:${card.strong}=\n===${card.typ}===\n`;
+  }
+  let playerHD = "";
+  for (let card of playerHandDeck) {
+    playerHD += `\n===${card.name}===\n=Level: ${card.level}=\n=HP: ${Math.round(card.hp * 100) / 100}=\n=DMG: ${
+      card.dmg
+    }=\n=Resi: ${card.resi}=\n=Power:${card.strong}=\n===${card.typ}===\n`;
+  }
+
+  return `\n=================================\n${spielerName} ist in der ${
+    round + 1
+  }. Runde gestorben.\nDas letztes Kampfset: ${playerRD}\nDie übrigen Handkarten: ${playerHD}`;
 }
 
 start();

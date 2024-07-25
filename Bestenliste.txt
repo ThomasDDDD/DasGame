@@ -1,77 +1,24 @@
 
-==========================
-=====Bestenliste=====
-==========================
+=========================
+=======Bestenliste=======
+=========================
 
-============================================================
-Mr.takkat ist in der 1. Runde gestorben.
+=================================
+Hansi ist in der 8. Runde gestorben.
+Das letztes Kampfset: 
+Die übrigen Handkarten: 
+===Zonusodu===
+=Level: 130=
+=HP: 46.25999999999988=
+DMG: 266=
+=Resistance: 1.449=
+=Power:1.54=
+===water===
 
-Das letztes Kampfset : 
-
-Folgende Karten lagen noch in der Hand: [object Object]
-============================================================
-Hans ist in der 1. Runde gestorben.
-
-Das letztes Kampfset : 
-
-Folgende Karten lagen noch in der Hand: 
-============================================================
-Hans ist in der 1. Runde gestorben.
-
-Das letztes Kampfset : 
-
-Folgende Karten lagen noch in der Hand: [object Object]
-============================================================
-Lkjsvc ist in der 1. Runde gestorben.
-
-Das letztes Kampfset : 
-
-Folgende Karten lagen noch in der Hand: [object Object]
-============================================================
-Hans ist in der 1. Runde gestorben.
-
-Das letztes Kampfset : 
-
-Folgende Karten lagen noch in der Hand: [object Object]
-============================================================
-Hansen ist in der 1. Runde gestorben.
-
-Das letztes Kampfset : 
-
-Folgende Karten lagen noch in der Hand: 
-============================================================
-Hansen ist in der 1. Runde gestorben.
-
-Das letztes Kampfset : 
-
-Folgende Karten lagen noch in der Hand: [object Object]
-============================================================
-Hansen ist in der 2. Runde gestorben.
-
-Das letztes Kampfset : 
-
-Folgende Karten lagen noch in der Hand: [object Object],[object Object]
-============================================================
-Mrtakkat ist in der 2. Runde gestorben.
-
-Das letztes Kampfset : 
-
-Folgende Karten lagen noch in der Hand: [object Object]
-============================================================
-Mr.takkat ist in der 1. Runde gestorben.
-
-Das letztes Kampfset : 
-
-Folgende Karten lagen noch in der Hand: [object Object]
-============================================================
-Hansen ist in der 2. Runde gestorben.
-
-Das letztes Kampfset : 
-
-Folgende Karten lagen noch in der Hand: [object Object],[object Object]
-============================================================
-Thomas ist in der 12. Runde gestorben.
-
-Das letztes Kampfset : 
-
-Folgende Karten lagen noch in der Hand: [object Object],[object Object]
+===Bamude===
+=Level: 108=
+=HP: 2050=
+DMG: 217=
+=Resistance: 1.345=
+=Power:1.39=
+===electro===
