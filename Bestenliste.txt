@@ -150,3 +150,97 @@ Die übrigen Handkarten:
 =Resi:  1.135=
 =Power:  2.14=
 ====fire====
+
+=================================
+Hans ist in der 4. Runde gestorben.
+
+Das letztes Kampfset:
+
+===Tesofa===
+==Level: 81==
+===HP: 1700===
+===DMG: 70===
+=Resi:   1.375=
+=Power:  1.36=
+====fire====
+
+===Hisele===
+==Level: 114==
+===HP: 1550===
+===DMG: 203===
+=Resi:   1.42=
+=Power:  1.78=
+====water====
+
+===Lotuwa===
+==Level: 98==
+===HP: 1300===
+===DMG: 154===
+=Resi:   1.42=
+=Power:  1.659=
+====fire====
+
+Die übrigen Handkarten:
+
+===Gofehela===
+==Level: 87==
+===HP: 2150===
+===DMG: 133===
+=Resi:  1.18=
+=Power:  1.39=
+====fire====
+
+===Dihirali===
+==Level: 104==
+===HP: 1500===
+===DMG: 238===
+=Resi:  1.3=
+=Power:  1.6=
+====water====
+
+=================================
+Test99 ist in der 2. Runde gestorben.
+
+Das letztes Kampfset:
+
+===Mibehu===
+==Level: 54==
+===HP: 850===
+===DMG: 105===
+=Resi:   1.15=
+=Power:  1.36=
+====electro====
+
+===Duredele===
+==Level: 104==
+===HP: 2050===
+===DMG: 140===
+=Resi:   1.36=
+=Power:  1.57=
+====electro====
+
+===Kohemata===
+==Level: 72==
+===HP: 1000===
+===DMG: 126===
+=Resi:   1.329=
+=Power:  1.36=
+====water====
+
+Die übrigen Handkarten:
+
+===Rigize===
+==Level: 99==
+===HP: 2000===
+===DMG: 154===
+=Resi:  1.285=
+=Power:  1.54=
+====fire====
+
+===Fohihoma===
+==Level: 92==
+===HP: 1850===
+===DMG: 98===
+=Resi:  1.345=
+=Power:  1.54=
+====electro====

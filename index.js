@@ -2,8 +2,8 @@
 import rs from "readline-sync";
 import fs from "fs";
 
-import { generate } from "./generate.js";
-import { round, statReset } from "./round.js";
+import { generate, bestListGenerate } from "./generate.js";
+import { round } from "./round.js";
 import { base } from "./base.js";
 
 //! for FileSystem - Bestenliste:
@@ -76,28 +76,6 @@ function start() {
     fs.appendFileSync(filePath, lastSet);
   }
   //bestenliste irgendwie bauen
-}
-
-//* generiere Text für bestenliste
-
-function bestListGenerate(spielerName, round, playerRoundDeckCopy, playerHandDeck) {
-  statReset(playerRoundDeckCopy, playerHandDeck);
-  let playerRD = "";
-  for (let card of playerRoundDeckCopy) {
-    playerRD += `\n===${card.name}===\n==Level: ${card.level}==\n===HP: ${
-      Math.round(card.hp * 100) / 100
-    }===\n===DMG: ${card.dmg}===\n=Resi:   ${card.resi}=\n=Power:  ${card.strong}=\n====${card.typ}====\n`;
-  }
-  let playerHD = "";
-  for (let card of playerHandDeck) {
-    playerHD += `\n===${card.name}===\n==Level: ${card.level}==\n===HP: ${
-      Math.round(card.hp * 100) / 100
-    }===\n===DMG: ${card.dmg}===\n=Resi:  ${card.resi}=\n=Power:  ${card.strong}=\n====${card.typ}====\n`;
-  }
-
-  return `\n=================================\n${spielerName} ist in der ${
-    round + 1
-  }. Runde gestorben.\n\nDas letztes Kampfset:\n${playerRD}\nDie übrigen Handkarten:\n${playerHD}`;
 }
 
 start();
