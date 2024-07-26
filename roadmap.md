@@ -99,6 +99,12 @@ stand version 0.1.0
 
 ## Npm package Blessed für Visualisierung über Terminal
 
+    -StartBildschirm
+        - Startmenu
+            -Spiel starten -> Namen abfragen
+            -(spiel laden) - (in späteren versionen)
+            -Bestenliste anzeigen
+
     -permahintergrund
         - später evtl auch ändern zwischen Rude und Base
 
