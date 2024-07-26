@@ -59,7 +59,7 @@ function start() {
     }
     round(playerRoundDeck, enemyDeck);
     //console.log(lost);
-    if (lost.length > 0) {
+    if (lost.length !== 0) {
       break;
     }
     playerRoundDeckCopy = base(playerRoundDeck, playerHandDeck);
