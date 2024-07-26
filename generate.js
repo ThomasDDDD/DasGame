@@ -12,10 +12,9 @@ export function generate(deck, level) {
     }
   }
 
-  //* einmal duch das Kartendeck map'en und pro Karte die Stats berechnen
-  //* und einen Namen generieren
+  //* einmal duch das Kartendeck map'en und pro Karte die CardStatpoints berechnen
+  //* einen Namen generieren
   //* den Karten mit den statPoints über die baseStats ihre stats berechnen
-  //* den Karten einen namen generieren
   //console.log(deck);
   deck = deck.map((card) => {
     cardStatPoints(card);
