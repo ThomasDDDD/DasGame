@@ -217,7 +217,7 @@ function fightEnemyVsPlayer(playerCard, enemyCard) {
 
 //? Einzelfuntionen:
 
-//* multiplier für klasse gegen Klasse ermitteln
+//* multiplier für klasse gegen Klasse ermittelnst
 function typMulti(playerCard, enemyCard) {
   if (
     (playerCard.typ === "fire" && enemyCard.typ === "water") ||

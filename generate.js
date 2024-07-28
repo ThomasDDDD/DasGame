@@ -33,7 +33,7 @@ function cardStatPoints(card) {
   let points = card.level;
   while (points > 0) {
     for (let i = 0; i < card.statPointsArr.length; i++) {
-      const statPoints = Math.ceil(Math.random() * (points / 4));
+      const statPoints = Math.ceil(Math.random() * (points / 4)); //* 80/4=20 => 16/ => 74/4=18.5 =>7/ => 67/4 = 16,5 =10
       points -= statPoints;
       card.statPointsArr[i] += statPoints;
     }
