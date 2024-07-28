@@ -43,9 +43,10 @@ export let playerMultiplier = 1;
 
 //! PROGRAMM STARTET HIER - Spielablauf
 
-function start() {
+export function start() {
   let spielerName = rs.question(`Wie ist dein Name junger Padawan?`);
-  spielerName = spielerName[0].toUpperCase() + spielerName.slice(1).toLowerCase();
+  spielerName =
+    spielerName[0].toUpperCase() + spielerName.slice(1).toLowerCase();
 
   enemyDeck = generate(enemyDeck, level);
 
@@ -71,11 +72,16 @@ function start() {
   const rounds = roundCount.reduce((acc, num) => {
     return acc + num;
   }, 0);
-  const lastSet = bestListGenerate(spielerName, rounds, playerRoundDeckCopy, playerHandDeck);
+  const lastSet = bestListGenerate(
+    spielerName,
+    rounds,
+    playerRoundDeckCopy,
+    playerHandDeck
+  );
   if (rounds >= 1) {
     fs.appendFileSync(filePath, lastSet);
   }
   //bestenliste irgendwie bauen
 }
 
-start();
+//start();
