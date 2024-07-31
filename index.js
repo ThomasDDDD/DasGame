@@ -81,7 +81,6 @@ export function start() {
   if (rounds >= 1) {
     fs.appendFileSync(filePath, lastSet);
   }
-  
 }
 
-start();
+//start();
