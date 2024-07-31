@@ -1,17 +1,206 @@
-<style>
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  body {
-    background-color: black;
-  }
-  canvas {
-    width: 100vw;
-    height: 100vh;
-  }
-</style>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./src/styles/style.css" />
+  </head>
+  <body>
+    <div class="background">
+      <!--?Startmenu-->
+      <div class="menu">
+        <button id="startGame">Spiel starten</button>
+        <button id="safeGame">Spiel speichern (comming soon)</button>
+        <button id="loadGame">Spiel laden (comming soon)</button>
+        <button id="bestList">Bestenliste</button>
+        <button id="exitGame">Spiel beenden</button>
+      </div>
+      <div class="menu">
+        <button id="mainMenu">Hauptmenu</button>
+      </div>
+      <div class="info">
+        <p id="rounds">1. Runde</p>
+      </div>
 
-<canvas></canvas>
-<script src="./visual.js"></script>
+      <!--?Enemy Card Deck-->
+      <div id="enemyDeck">
+        <div class="cardBG" id="eCard1">
+          <h3>Level: 113</h3>
+          <h4>Kalimalo</h4>
+          <div class="stats">
+            <p>HP:</p>
+            <p><span>1400</span></p>
+          </div>
+          <div class="stats">
+            <p>DMG:</p>
+            <p><span>346</span></p>
+          </div>
+          <div class="stats">
+            <p>Resi:</p>
+            <p><span>70%</span></p>
+          </div>
+          <div class="stats">
+            <p>Strong:</p>
+            <p><span>85%</span></p>
+          </div>
+          <h5>WATER</h5>
+        </div>
+        <div class="cardBG" id="eCard2">
+          <h3>Level: 113</h3>
+          <h4>Kalimalo</h4>
+          <div class="stats">
+            <p>HP:</p>
+            <p><span>1400</span></p>
+          </div>
+          <div class="stats">
+            <p>DMG:</p>
+            <p><span>346</span></p>
+          </div>
+          <div class="stats">
+            <p>Resi:</p>
+            <p><span>70%</span></p>
+          </div>
+          <div class="stats">
+            <p>Strong:</p>
+            <p><span>85%</span></p>
+          </div>
+          <h5>WATER</h5>
+        </div>
+        <div class="cardBG" id="eCard3">
+          <h3>Level: 113</h3>
+          <h4>Kalimalo</h4>
+          <div class="stats">
+            <p>HP:</p>
+            <p><span>1400</span></p>
+          </div>
+          <div class="stats">
+            <p>DMG:</p>
+            <p><span>346</span></p>
+          </div>
+          <div class="stats">
+            <p>Resi:</p>
+            <p><span>70%</span></p>
+          </div>
+          <div class="stats">
+            <p>Strong:</p>
+            <p><span>85%</span></p>
+          </div>
+          <h5>WATER</h5>
+        </div>
+      </div>
+
+      <!--?Kampfarea-->
+      <div class="fightArea"></div>
+
+      <!--?Player Round Card Deck-->
+      <div id="playerRoundDeck">
+        <div class="cardBG" id="prCard1">
+          <h3>Level: 113</h3>
+          <h4>Kalimalo</h4>
+          <div class="stats">
+            <p>HP:</p>
+            <p><span>1400</span></p>
+          </div>
+          <div class="stats">
+            <p>DMG:</p>
+            <p><span>346</span></p>
+          </div>
+          <div class="stats">
+            <p>Resi:</p>
+            <p><span>70%</span></p>
+          </div>
+          <div class="stats">
+            <p>Strong:</p>
+            <p><span>85%</span></p>
+          </div>
+          <h5>WATER</h5>
+        </div>
+        <div class="cardBG" id="prCard2">
+          <h3>Level: 113</h3>
+          <h4>Kalimalo</h4>
+          <div class="stats">
+            <p>HP:</p>
+            <p><span>1400</span></p>
+          </div>
+          <div class="stats">
+            <p>DMG:</p>
+            <p><span>346</span></p>
+          </div>
+          <div class="stats">
+            <p>Resi:</p>
+            <p><span>70%</span></p>
+          </div>
+          <div class="stats">
+            <p>Strong:</p>
+            <p><span>85%</span></p>
+          </div>
+          <h5>WATER</h5>
+        </div>
+        <div class="cardBG" id="prCard3">
+          <h3>Level: 113</h3>
+          <h4>Kalimalo</h4>
+          <div class="stats">
+            <p>HP:</p>
+            <p><span>1400</span></p>
+          </div>
+          <div class="stats">
+            <p>DMG:</p>
+            <p><span>346</span></p>
+          </div>
+          <div class="stats">
+            <p>Resi:</p>
+            <p><span>70%</span></p>
+          </div>
+          <div class="stats">
+            <p>Strong:</p>
+            <p><span>85%</span></p>
+          </div>
+          <h5>WATER</h5>
+        </div>
+      </div>
+
+      <!--?Player Hand Card Deck-->
+      <div id="playerHandDeck">
+        <div class="cardBG" id="phCard01">
+          <h3>Level: 113</h3>
+          <h4>Kalimalo</h4>
+          <div class="stats">
+            <p>HP:</p>
+            <p><span>1400</span></p>
+          </div>
+          <div class="stats">
+            <p>DMG:</p>
+            <p><span>346</span></p>
+          </div>
+          <div class="stats">
+            <p>Resi:</p>
+            <p><span>70%</span></p>
+          </div>
+          <div class="stats">
+            <p>Strong:</p>
+            <p><span>85%</span></p>
+          </div>
+          <h5>WATER</h5>
+        </div>
+        <div class="cardBG" id="phCard02"></div>
+        <div class="cardBG" id="phCard03"></div>
+        <div class="cardBG" id="phCard04"></div>
+        <div class="cardBG" id="phCard05"></div>
+        <div class="cardBG" id="phCard06"></div>
+        <div class="cardBG" id="phCard07"></div>
+        <div class="cardBG" id="phCard08"></div>
+        <div class="cardBG" id="phCard09"></div>
+        <div class="cardBG" id="phCard10"></div>
+        <div class="cardBG" id="phCard11"></div>
+        <div class="cardBG" id="phCard12"></div>
+      </div>
+    </div>
+  </body>
+</html>

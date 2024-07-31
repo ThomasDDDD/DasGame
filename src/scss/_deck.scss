@@ -1,0 +1,107 @@
+.fightArea {
+  width: 70%;
+  height: 35%;
+  display: none;
+  border-radius: 50%;
+  background: linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.807),
+    rgba(128, 128, 128, 0.753)
+  );
+  box-shadow: 0 5px 10px #6d4700, 0 0 30px inset #d681007c;
+  position: absolute;
+  top: 25%;
+}
+
+#enemyDeck,
+#playerRoundDeck,
+#playerHandDeck {
+  width: 60vw;
+  height: 28vh;
+  position: absolute;
+  top: 1%;
+  z-index: 1;
+  display: none;
+  justify-content: space-evenly;
+  > div {
+    width: 10vw;
+    min-width: 75px;
+    max-width: 120px;
+    aspect-ratio: 1/1.3;
+    background-size: cover;
+    background-position: center;
+    border-radius: 5px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.895);
+    border: 1px solid orange;
+    flex-direction: column;
+    justify-content: space-between;
+    font-size: 0.5rem;
+    color: #ffa702;
+    font-weight: 600;
+    text-align: center;
+    padding: 1% 2%;
+    h3 {
+      font-size: 1.3em;
+      flex: 2;
+    }
+    h4 {
+      color: rgba(153, 255, 0, 0.853);
+      font-weight: bold;
+      letter-spacing: 0.3em;
+    }
+    h5 {
+      color: rgb(26, 118, 255);
+      font-size: 1.1em;
+      letter-spacing: 0.1em;
+    }
+    div {
+      width: 100%;
+      font-size: 0.8em;
+      display: flex;
+      justify-content: space-between;
+      span {
+        font-weight: 900;
+        text-align: right;
+        letter-spacing: 0.2em;
+      }
+    }
+  }
+  > :hover {
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 0 0 15px orange;
+  }
+}
+#playerRoundDeck {
+  top: 50%;
+  z-index: 1;
+}
+#playerHandDeck {
+  flex-wrap: wrap-reverse;
+  width: 90vw;
+  height: 45vh;
+  justify-content: space-evenly;
+  column-gap: 1vw;
+  row-gap: 1vh;
+
+  top: 53%;
+  z-index: 0;
+  > div {
+    width: 10%;
+    min-width: 45px;
+    max-width: 120px;
+    height: 49%;
+    padding: 0.5%;
+    h3 {
+      font-size: 1em;
+    }
+    h4 {
+      font-size: 0.8em;
+    }
+  }
+  > :hover {
+    cursor: auto;
+    transition: 0s;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.895);
+  }
+}

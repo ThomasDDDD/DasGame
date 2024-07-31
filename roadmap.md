@@ -158,3 +158,29 @@ stand version 0.1.0
 
     -wechsel in die round
         -es werden wieder 3 neue Gegnerkarten am oberen Kartenrand dargestellt nach erzeugung.
+
+## klassisch DOM Manipulation
+
+card str:
+
+            <div id="phCard01">
+          <h3>Level: 113</h3>
+          <h4>Kalimalo</h4>
+          <div class="stats">
+            <p>HP:</p>
+            <p><span>1400</span></p>
+          </div>
+          <div class="stats">
+            <p>DMG:</p>
+            <p><span>346</span></p>
+          </div>
+          <div class="stats">
+            <p>Resi:</p>
+            <p><span>70%</span></p>
+          </div>
+          <div class="stats">
+            <p>Strong:</p>
+            <p><span>85%</span></p>
+          </div>
+          <h5>WATER</h5>
+        </div>
