@@ -1,14 +1,10 @@
 .fightArea {
   width: 70%;
   height: 35%;
-  display: none;
+  display: flex;
   border-radius: 50%;
-  background: linear-gradient(
-    0deg,
-    rgba(0, 0, 0, 0.807),
-    rgba(128, 128, 128, 0.753)
-  );
-  box-shadow: 0 5px 10px #6d4700, 0 0 30px inset #d681007c;
+  background: linear-gradient(20deg, $stilColor18, $stilColor17);
+  box-shadow: 0 15px 20px $stilColor18, 0 0 40px inset $stilColor13;
   position: absolute;
   top: 25%;
 }
@@ -21,7 +17,7 @@
   position: absolute;
   top: 1%;
   z-index: 1;
-  display: none;
+  display: flex;
   justify-content: space-evenly;
   > div {
     width: 10vw;
@@ -31,12 +27,12 @@
     background-size: cover;
     background-position: center;
     border-radius: 5px;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.895);
-    border: 1px solid orange;
+    box-shadow: 0 0 5px $stilColor12;
+    border: 2px solid $stilColor06;
     flex-direction: column;
     justify-content: space-between;
     font-size: 0.5rem;
-    color: #ffa702;
+    color: $stilColor01;
     font-weight: 600;
     text-align: center;
     padding: 1% 2%;
@@ -45,12 +41,12 @@
       flex: 2;
     }
     h4 {
-      color: rgba(153, 255, 0, 0.853);
+      color: $stilColor09a;
       font-weight: bold;
       letter-spacing: 0.3em;
     }
     h5 {
-      color: rgb(26, 118, 255);
+      color: $typColorW;
       font-size: 1.1em;
       letter-spacing: 0.1em;
     }

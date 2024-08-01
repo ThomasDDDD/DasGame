@@ -1,22 +1,18 @@
 button {
-  background: linear-gradient(
-    25deg,
-    rgba(0, 0, 0, 0.401),
-    rgba(128, 128, 128, 0.758)
-  );
+  background: linear-gradient(25deg, $stilColor36, $stilColor25);
   border-radius: 5px;
-  border: 2px solid #b77700bb;
+  border: 2px solid $stilColor04;
   font-family: "Orbitron", sans-serif;
   letter-spacing: 0.15rem;
   font-size: 1rem;
   font-weight: bold;
-  color: #de9100;
-  box-shadow: 0 0 10px #6d4700;
+  color: $stilColor02;
+  box-shadow: 0 0 10px $stilColor14;
   cursor: pointer;
   &:hover {
-    background-color: #de9000af;
-    border: 2px solid #d38900;
-    box-shadow: 0 0 10px #d38900;
-    color: #3a2f09;
+    background-color: $stilColor01;
+    border: 2px solid $stilColor06;
+    box-shadow: 0 0 10px $stilColor16;
+    color: $stilColor06;
   }
 }
