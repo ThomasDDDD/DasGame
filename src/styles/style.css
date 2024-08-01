@@ -80,7 +80,7 @@ input:focus {
   width: 70%;
   height: 15%;
 }
-.menu div {
+.menu form {
   display: flex;
   flex-direction: column;
   width: 70%;
@@ -88,11 +88,11 @@ input:focus {
   align-items: center;
   justify-content: space-evenly;
 }
-.menu div button {
+.menu form button {
   width: 100%;
   height: 25%;
 }
-.menu div p {
+.menu form p {
   font-size: 1.2em;
 }
 
@@ -180,13 +180,13 @@ input:focus {
   color: #dfe5b0;
   font-weight: 600;
   text-align: center;
-  padding: 1% 2%;
+  padding: 1%;
   transition: 0.3s;
 }
 #enemyDeck > div h3,
 #playerRoundDeck > div h3,
 #playerHandDeck > div h3 {
-  font-size: 1.3em;
+  font-size: 1.1em;
   flex: 2;
 }
 #enemyDeck > div h4,
@@ -199,7 +199,6 @@ input:focus {
 #enemyDeck > div h5,
 #playerRoundDeck > div h5,
 #playerHandDeck > div h5 {
-  color: rgb(0, 191, 255);
   font-size: 1.1em;
   letter-spacing: 0.1em;
 }
@@ -262,77 +261,77 @@ input:focus {
 }
 
 #eCard1 {
-  display: flex;
+  display: none;
   background-image: linear-gradient(rgba(68, 2, 106, 0.2274509804), rgba(0, 0, 0, 0.7764705882)), url(../img/spells-Pack2/14.png);
 }
 
 #eCard2 {
-  display: flex;
+  display: none;
   background: linear-gradient(rgba(68, 2, 106, 0.2274509804), rgba(0, 0, 0, 0.7764705882)), url(../img/spells-Pack2/46.png);
 }
 
 #eCard3 {
-  display: flex;
+  display: none;
   background: linear-gradient(rgba(68, 2, 106, 0.2274509804), rgba(0, 0, 0, 0.7764705882)), url(../img/spells-Pack2/33.png);
 }
 
 #prCard1 {
-  display: flex;
+  display: none;
   background: linear-gradient(rgba(68, 2, 106, 0.2274509804), rgba(0, 0, 0, 0.7764705882)), url(../img/spells-Pack2/19.png);
 }
 
 #prCard2 {
-  display: flex;
+  display: none;
   background: linear-gradient(rgba(68, 2, 106, 0.2274509804), rgba(0, 0, 0, 0.7764705882)), url(../img/spells-Pack2/02.png);
 }
 
 #prCard3 {
-  display: flex;
+  display: none;
   background: linear-gradient(rgba(68, 2, 106, 0.2274509804), rgba(0, 0, 0, 0.7764705882)), url(../img/spells-Pack2/15.png);
 }
 
 #phCard01 {
-  display: flex;
+  display: none;
   background: linear-gradient(rgba(68, 2, 106, 0.2274509804), rgba(0, 0, 0, 0.7764705882)), url(../img/spells-Pack2/39.png);
 }
 
 #phCard02 {
-  display: flex;
+  display: none;
   background: linear-gradient(rgba(68, 2, 106, 0.2274509804), rgba(0, 0, 0, 0.7764705882)), url(../img/spells-Pack2/21.png);
 }
 
 #phCard03 {
-  display: flex;
+  display: none;
   background: linear-gradient(rgba(68, 2, 106, 0.2274509804), rgba(0, 0, 0, 0.7764705882)), url(../img/spells-Pack2/42.png);
 }
 
 #phCard04 {
-  display: flex;
+  display: none;
   background: linear-gradient(rgba(68, 2, 106, 0.2274509804), rgba(0, 0, 0, 0.7764705882)), url(../img/spells-Pack2/09.png);
 }
 
 #phCard05 {
-  display: flex;
+  display: none;
   background: linear-gradient(rgba(68, 2, 106, 0.2274509804), rgba(0, 0, 0, 0.7764705882)), url(../img/spells-Pack2/48.png);
 }
 
 #phCard06 {
-  display: flex;
+  display: none;
   background: linear-gradient(rgba(68, 2, 106, 0.2274509804), rgba(0, 0, 0, 0.7764705882)), url(../img/spells-Pack2/25.png);
 }
 
 #phCard07 {
-  display: flex;
+  display: none;
   background: linear-gradient(rgba(68, 2, 106, 0.2274509804), rgba(0, 0, 0, 0.7764705882)), url(../img/spells-Pack2/31.png);
 }
 
 #phCard08 {
-  display: flex;
+  display: none;
   background: linear-gradient(rgba(68, 2, 106, 0.2274509804), rgba(0, 0, 0, 0.7764705882)), url(../img/spells-Pack2/35.png);
 }
 
 #phCard09 {
-  display: flex;
+  display: none;
   background: linear-gradient(rgba(68, 2, 106, 0.2274509804), rgba(0, 0, 0, 0.7764705882)), url(../img/spells-Pack2/14.png);
 }
 

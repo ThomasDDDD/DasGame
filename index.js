@@ -1,13 +1,15 @@
 //! Import
-import rs from "readline-sync";
-import fs from "fs";
+//import rs from "./node_modules/readline-sync";
+//import fs from "./";
 
-import { generate, bestListGenerate } from "./generate.js";
-import { round } from "./round.js";
-import { base } from "./base.js";
+import { generate /*bestListGenerate*/ } from "./generate.js";
+//import { round } from "./round.js";
+//import { base } from "./base.js";
+import { renderField } from "./visualDom.js";
 
 //! for FileSystem - Bestenliste:
 
+/*
 const filePath = "./Bestenliste.txt";
 if (!fs.existsSync(filePath)) {
   fs.writeFileSync(
@@ -21,6 +23,7 @@ if (!fs.existsSync(filePath)) {
     }
   );
 }
+*/
 
 //! Globale variablen
 
@@ -29,7 +32,7 @@ export const baseStats = {
   dmg: 7,
   resi: 0.015,
   strong: 0.03,
-  elem: ["water", "fire", "electro"],
+  elem: ["Water", "Fire", "Electro"],
 };
 export let roundCount = [];
 export let lost = [];
@@ -43,14 +46,16 @@ export let playerMultiplier = 1;
 
 //! PROGRAMM STARTET HIER - Spielablauf
 
-export function start() {
-  let spielerName = rs.question(`Wie ist dein Name junger Padawan?`);
-  spielerName =
-    spielerName[0].toUpperCase() + spielerName.slice(1).toLowerCase();
-
+export async function start(playerName) {
+  let spielerName = playerName;
+  spielerName[0].toUpperCase() + spielerName.slice(1).toLowerCase();
+  console.log(spielerName, `geht schon bis hier`);
   enemyDeck = generate(enemyDeck, level);
+  console.log(enemyDeck);
 
   playerRoundDeck = generate(playerRoundDeck, level);
+  console.log(playerRoundDeck);
+  renderField(enemyDeck, playerRoundDeck, playerHandDeck);
 
   let playerRoundDeckCopy = [];
 
