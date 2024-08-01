@@ -41,8 +41,16 @@ export function safeNameInput() {
 }
 
 export function renderField(enemyDeck, playerRoundDeck, playerHandDeck = []) {
-  //jetzt be creative
+  const allCardsDisplay = document.querySelectorAll(`.cardBG`);
+  console.log(allCardsDisplay);
+  for (let card of allCardsDisplay) {
+    card.style.display = `none`;
+  }
+  for (let i = 0; i < enemyDeckVisual.children.length; i++) {
+    enemyDeckVisual.children[i].style.transform = "translateY(0px)";
+  }
   const typColor = ["rgb(0, 191, 255)", "rgb(255, 89, 0)", "rgb(234, 255, 0)"];
+
   for (let i = 0; i < enemyDeck.length; i++) {
     enemyDeckVisual.children[
       i
@@ -106,6 +114,7 @@ export function renderField(enemyDeck, playerRoundDeck, playerHandDeck = []) {
       ].children[6].style.color = `${typColor[2]}`;
     }
     playerRoundDeckVisual.children[i].style.display = `flex`;
+    playerRoundDeckVisual.children[i].setAttribute(`cardIndex`, `${i}`);
   }
 
   for (let i = 0; i < playerHandDeck.length; i++) {
@@ -144,9 +153,39 @@ export function renderField(enemyDeck, playerRoundDeck, playerHandDeck = []) {
       ].children[6].style.color = `${typColor[2]}`;
     }
     playerHandDeckVisual.children[i].style.display = `flex`;
+    playerHandDeckVisual.children[i].setAttribute(`cardIndex`, `${i}`);
   }
 
   enemyDeckVisual.style.display = `flex`;
   playerRoundDeckVisual.style.display = `flex`;
   playerHandDeckVisual.style.display = `flex`;
+}
+
+export function getIndex() {
+  return new Promise((resolve) => {
+    const cards = document.querySelectorAll(".playerRC");
+    console.log(cards);
+
+    function onCardClick(event) {
+      const cardIndex = event.currentTarget.getAttribute("cardIndex");
+      console.log(cardIndex);
+      resolve(parseInt(cardIndex));
+
+      cards.forEach((card) => {
+        card.removeEventListener("click", onCardClick);
+      });
+    }
+    cards.forEach((card) => {
+      card.addEventListener("click", onCardClick);
+    });
+  });
+}
+//function playerChoiseVisual() {}
+
+export function moveChoice(card) {
+  for (let i = 0; i < enemyDeckVisual.children.length; i++) {
+    if (enemyDeckVisual.children[i].children[1].innerText === card.name) {
+      enemyDeckVisual.children[i].style.transform = "translateY(75px)";
+    }
+  }
 }

@@ -3,7 +3,7 @@
 //import fs from "./";
 
 import { generate /*bestListGenerate*/ } from "./generate.js";
-//import { round } from "./round.js";
+import { round } from "./round.js";
 //import { base } from "./base.js";
 import { renderField } from "./visualDom.js";
 
@@ -63,7 +63,7 @@ export async function start(playerName) {
     if (playerRoundDeckCopy.length > 0) {
       playerRoundDeck = [...playerRoundDeckCopy];
     }
-    round(playerRoundDeck, enemyDeck);
+    await round(playerRoundDeck, enemyDeck);
     //console.log(lost);
     if (lost.length !== 0) {
       break;

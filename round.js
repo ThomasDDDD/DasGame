@@ -1,5 +1,5 @@
-import rs from "readline-sync";
-//* next import nur für test:
+//import rs from "readline-sync";
+
 import {
   playerHandDeck,
   playerRoundDeck,
@@ -10,12 +10,13 @@ import {
   level,
   enemyMultiplier,
 } from "./index.js";
+import { getIndex, renderField, moveChoice } from "./visualDom.js";
 
 //! Kampfrunde
 
 //* eine Runde solange Gegner oder Spieler noch karten im Kampf haben
 
-export function round(playerRoundDeck, enemyDeck) {
+export async function round(playerRoundDeck, enemyDeck) {
   console.log(`Gegner Deck: `);
   console.log(enemyDeck);
   console.log(`Spieler Deck:  `);
@@ -24,7 +25,7 @@ export function round(playerRoundDeck, enemyDeck) {
   let playerCard = {};
   let enemyCard = {};
   while (playerRoundDeck.length > 0 && enemyDeck.length > 0) {
-    playerCard = playerChoise(playerRoundDeck, enemyCard);
+    playerCard = await playerChoise(playerRoundDeck, enemyCard);
     enemyCard = enemyChoise(enemyDeck, playerCard);
 
     fightPlayerVsEnemy(playerCard, enemyCard);
@@ -37,10 +38,12 @@ export function round(playerRoundDeck, enemyDeck) {
     console.log(playerHandDeck);
     console.log(`The Rest of your Round Deck:`);
     console.log(playerRoundDeck);
+    renderField(enemyDeck, playerRoundDeck, playerHandDeck);
 
     enemyCard = enemyChoise(enemyDeck, playerCard);
-    playerCard = playerChoise(playerRoundDeck, enemyCard);
-
+    moveChoice(enemyCard);
+    playerCard = await playerChoise(playerRoundDeck, enemyCard);
+    renderField(enemyDeck, playerRoundDeck, playerHandDeck);
     fightEnemyVsPlayer(playerCard, enemyCard);
 
     console.log(`The Enemy Deck`);
@@ -49,6 +52,7 @@ export function round(playerRoundDeck, enemyDeck) {
     console.log(playerHandDeck);
     console.log(`The Rest of your Round Deck:`);
     console.log(playerRoundDeck);
+    renderField(enemyDeck, playerRoundDeck, playerHandDeck);
   }
   //statReset(playerRoundDeck, playerHandDeck);
 
@@ -65,18 +69,19 @@ export function round(playerRoundDeck, enemyDeck) {
 }
 
 //* Spieler wählt über ReadlineSync.KeyInSelect aus seinem Deck eine Karte für den Kampf:
-function playerChoise(playerRoundDeck, enemyCard) {
+async function playerChoise(playerRoundDeck, enemyCard) {
   if (enemyCard === true) {
     console.log(`Dein Gegener schickt ${enemyCard.name} in den Kampf!`);
     console.log(enemyCard);
   }
-  const auswahl = [];
-  for (let card of playerRoundDeck) {
-    auswahl.push(card.name);
-  }
-  const kartenWahl = playerRoundDeck[rs.keyInSelect(auswahl, `\nBitte wähle eine Karte für den Kampf: `)];
+  //const auswahl = [];
+  //for (let card of playerRoundDeck) {
+  //  auswahl.push(card.name);
+  //}
+  const index = await getIndex();
+  console.log(index);
+  const kartenWahl = playerRoundDeck[index];
 
-  console.log(`Du schickst ${kartenWahl.name} in den Kampf!`);
   console.log(kartenWahl);
   return kartenWahl;
 }
@@ -91,18 +96,20 @@ function enemyChoise(enemyDeck, playerCard) {
     for (let card of enemyDeck) {
       //console.log(`${kartenWahl.level} + ${card.level}`);
       if (
-        (kartenWahl.level <= card.level || kartenWahl.hp + kartenWahl.dmg <= card.hp + card.dmg) &&
-        ((playerCard.typ === "fire" && kartenWahl.typ !== "water") ||
-          (playerCard.typ === "water" && kartenWahl.typ !== "electro") ||
-          (playerCard.typ === "electro" && kartenWahl.typ !== "fire"))
+        (kartenWahl.level <= card.level ||
+          kartenWahl.hp + kartenWahl.dmg <= card.hp + card.dmg) &&
+        ((playerCard.typ === "Fire" && kartenWahl.typ !== "Water") ||
+          (playerCard.typ === "Water" && kartenWahl.typ !== "Electro") ||
+          (playerCard.typ === "Electro" && kartenWahl.typ !== "Fire"))
       ) {
         //console.log(`rein `);
         if (
           playerCard.level < card.level &&
-          ((playerCard.typ === "fire" && card.typ === "water") ||
-            (playerCard.typ === "water" && card.typ === "electro") ||
-            (playerCard.typ === "electro" && card.typ === "fire")) &&
-          (playerCard.hp + playerCard.dmg * playerCard.strong < card.hp + card.dmg * card.strong ||
+          ((playerCard.typ === "Fire" && card.typ === "Water") ||
+            (playerCard.typ === "Water" && card.typ === "Electro") ||
+            (playerCard.typ === "Electro" && card.typ === "Fire")) &&
+          (playerCard.hp + playerCard.dmg * playerCard.strong <
+            card.hp + card.dmg * card.strong ||
             playerCard.resi < card.strong ||
             playerCard.hp < card.dmg * card.strong * 3)
         ) {
@@ -110,7 +117,8 @@ function enemyChoise(enemyDeck, playerCard) {
           kartenWahl = card;
         } else if (
           playerCard.level < card.level &&
-          (playerCard.hp + playerCard.dmg * playerCard.strong < card.hp + card.dmg * card.strong ||
+          (playerCard.hp + playerCard.dmg * playerCard.strong <
+            card.hp + card.dmg * card.strong ||
             playerCard.resi < card.strong ||
             playerCard.hp < card.dmg * card.strong * 3)
         ) {
@@ -118,7 +126,8 @@ function enemyChoise(enemyDeck, playerCard) {
           kartenWahl = card;
         } else if (
           playerCard.level - 20 < card.level &&
-          (playerCard.hp + playerCard.dmg * playerCard.strong < card.hp + card.dmg * card.strong ||
+          (playerCard.hp + playerCard.dmg * playerCard.strong <
+            card.hp + card.dmg * card.strong ||
             playerCard.resi < card.strong ||
             playerCard.hp < card.dmg * card.strong * 3)
         ) {
@@ -126,10 +135,11 @@ function enemyChoise(enemyDeck, playerCard) {
           kartenWahl = card;
         } else if (
           playerCard.level - 40 < card.level &&
-          ((playerCard.typ === "fire" && card.typ === "water") ||
-            (playerCard.typ === "water" && card.typ === "electro") ||
-            (playerCard.typ === "electro" && card.typ === "fire")) &&
-          (playerCard.hp + playerCard.dmg * playerCard.strong < card.hp + card.dmg * card.strong ||
+          ((playerCard.typ === "Fire" && card.typ === "Water") ||
+            (playerCard.typ === "Water" && card.typ === "Electro") ||
+            (playerCard.typ === "Electro" && card.typ === "Fire")) &&
+          (playerCard.hp + playerCard.dmg * playerCard.strong <
+            card.hp + card.dmg * card.strong ||
             playerCard.resi < card.strong ||
             playerCard.hp < card.dmg * card.strong * 3)
         ) {
@@ -140,7 +150,10 @@ function enemyChoise(enemyDeck, playerCard) {
     }
   } else {
     for (let card of enemyDeck) {
-      if (kartenWahl.level <= card.level || kartenWahl.hp + kartenWahl.dmg < card.hp + card.dmg) {
+      if (
+        kartenWahl.level <= card.level ||
+        kartenWahl.hp + kartenWahl.dmg < card.hp + card.dmg
+      ) {
         kartenWahl = card;
       }
     }
@@ -159,13 +172,23 @@ function fightPlayerVsEnemy(playerCard, enemyCard) {
 
   //* Kampfhandlung
   while (playerCardCopy.hp > 0 && enemyCardCopy.hp > 0) {
-    let hit = Number(((playerCardCopy.dmg * playerCardCopy.strong * typMultiplier) / enemyCardCopy.resi).toFixed(3));
+    let hit = Number(
+      (
+        (playerCardCopy.dmg * playerCardCopy.strong * typMultiplier) /
+        enemyCardCopy.resi
+      ).toFixed(3)
+    );
     console.log(`you hit with ${hit} DMG`);
     enemyCardCopy.hp -= hit;
     if (enemyCardCopy.hp <= 0) {
       break;
     }
-    hit = Number(((enemyCardCopy.dmg * enemyCardCopy.strong * typMultiplier) / playerCardCopy.resi).toFixed(3));
+    hit = Number(
+      (
+        (enemyCardCopy.dmg * enemyCardCopy.strong * typMultiplier) /
+        playerCardCopy.resi
+      ).toFixed(3)
+    );
     console.log(`you got a hit with ${hit} DMG`);
     playerCardCopy.hp -= hit;
   }
@@ -191,13 +214,23 @@ function fightEnemyVsPlayer(playerCard, enemyCard) {
 
   //* Kampfhandlung
   while (playerCardCopy.hp > 0 && enemyCardCopy.hp > 0) {
-    let hit = Number(((enemyCardCopy.dmg * enemyCardCopy.strong * typMultiplier) / playerCardCopy.resi).toFixed(3));
+    let hit = Number(
+      (
+        (enemyCardCopy.dmg * enemyCardCopy.strong * typMultiplier) /
+        playerCardCopy.resi
+      ).toFixed(3)
+    );
     console.log(`you got a hit with ${hit} DMG`);
     playerCardCopy.hp -= hit;
     if (playerCardCopy.hp <= 0) {
       break;
     }
-    hit = Number(((playerCardCopy.dmg * playerCardCopy.strong * typMultiplier) / enemyCardCopy.resi).toFixed(3));
+    hit = Number(
+      (
+        (playerCardCopy.dmg * playerCardCopy.strong * typMultiplier) /
+        enemyCardCopy.resi
+      ).toFixed(3)
+    );
     console.log(`you hit with ${hit} DMG`);
     enemyCardCopy.hp -= hit;
   }
@@ -220,9 +253,9 @@ function fightEnemyVsPlayer(playerCard, enemyCard) {
 //* multiplier für klasse gegen Klasse ermittelnst
 function typMulti(playerCard, enemyCard) {
   if (
-    (playerCard.typ === "fire" && enemyCard.typ === "water") ||
-    (playerCard.typ === "water" && enemyCard.typ === "electro") ||
-    (playerCard.typ === "electro" && enemyCard.typ === "fire")
+    (playerCard.typ === "Fire" && enemyCard.typ === "Water") ||
+    (playerCard.typ === "Water" && enemyCard.typ === "Electro") ||
+    (playerCard.typ === "Electro" && enemyCard.typ === "Fire")
   ) {
     return 0.8;
   } else if (playerCard.typ === enemyCard.typ) {
@@ -233,7 +266,12 @@ function typMulti(playerCard, enemyCard) {
 }
 
 //* Karten nach Einzelkampf umschlichten
-function cardSortAfterFight(enemyCardCopy, enemyCard, playerCardCopy, playerCard) {
+function cardSortAfterFight(
+  enemyCardCopy,
+  enemyCard,
+  playerCardCopy,
+  playerCard
+) {
   if (enemyCardCopy.hp <= 0) {
     console.log(`Sieg -> Du bekommst ${enemyCard.name} in dein Handdeck.`);
     playerHandDeck.push(enemyCard);
@@ -242,8 +280,12 @@ function cardSortAfterFight(enemyCardCopy, enemyCard, playerCardCopy, playerCard
     index = playerRoundDeck.findIndex((card) => card.name === playerCard.name);
     playerRoundDeck.splice(index, 1, playerCardCopy);
   } else {
-    console.log(`Verloren... ein schwerer Verlust. ${playerCard.name} wird verbrannt.`);
-    let index = playerRoundDeck.findIndex((card) => card.name === playerCard.name);
+    console.log(
+      `Verloren... ein schwerer Verlust. ${playerCard.name} wird verbrannt.`
+    );
+    let index = playerRoundDeck.findIndex(
+      (card) => card.name === playerCard.name
+    );
     playerRoundDeck.splice(index, 1);
     index = enemyDeck.findIndex((card) => card.name === enemyCard.name);
     enemyDeck.splice(index, 1, enemyCardCopy);
