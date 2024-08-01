@@ -15,16 +15,23 @@
   <body>
     <div class="background">
       <!--?Startmenu-->
-      <div class="menu">
+      <div class="menu startMenu">
         <button id="startGame">Spiel starten</button>
-        <button id="safeGame">Spiel speichern (comming soon)</button>
-        <button id="loadGame">Spiel laden (comming soon)</button>
+        <button id="safeGame">Spiel speichern</button>
+        <button id="loadGame">Spiel laden</button>
         <button id="bestList">Bestenliste</button>
         <button id="exitGame">Spiel beenden</button>
       </div>
-      <div class="menu">
+
+      <div class="menu inputMenu">
+        <div class="input">
+          <p for="input">Hier eingeben:</p>
+          <input type="text" id="input" />
+          <button id="inputBtn">Annehmen</button>
+        </div>
         <button id="mainMenu">Hauptmenu</button>
       </div>
+
       <div class="info">
         <p id="rounds">1. Runde</p>
       </div>
@@ -202,6 +209,7 @@
         <div class="cardBG" id="phCard12"></div>
       </div>
     </div>
-    <script src="./visualDom.js"></script>
+
+    <script type="module" src="./visualDom.js"></script>
   </body>
 </html>
