@@ -61,11 +61,12 @@
         letter-spacing: 0.2em;
       }
     }
+    transition: 0.3s;
   }
   > :hover {
     cursor: pointer;
-    transition: 0.3s;
-    box-shadow: 0 0 15px orange;
+    border: 2px solid $stilColor03;
+    box-shadow: 0 0 15px $stilColor06;
   }
 }
 #playerRoundDeck {
@@ -94,10 +95,11 @@
     h4 {
       font-size: 0.8em;
     }
+    transition: 0.3s;
   }
   > :hover {
     cursor: auto;
-    transition: 0s;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.895);
+    border: 2px solid $stilColor06;
+    box-shadow: 0 0 5px $stilColor12;
   }
 }
