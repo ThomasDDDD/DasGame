@@ -190,6 +190,7 @@ async function fightPlayerVsEnemy(playerCard, enemyCard) {
     console.log(`you hit with ${hit} DMG`);
     await hitFeedback(hit, "Player");
     enemyCardCopy.hp -= hit;
+    enemyCardCopy.hp = Number(enemyCardCopy.hp.toFixed(3));
     htmlUpdateCard(enemyCardCopy, "EnemyDeck");
     if (enemyCardCopy.hp <= 0) {
       break;
@@ -203,6 +204,7 @@ async function fightPlayerVsEnemy(playerCard, enemyCard) {
     console.log(`you got a hit with ${hit} DMG`);
     await hitFeedback(hit, "Enemy");
     playerCardCopy.hp -= hit;
+    playerCardCopy.hp = Number(playerCardCopy.hp.toFixed(3));
     htmlUpdateCard(playerCardCopy, "PlayerRoundDeck");
   }
 
@@ -240,6 +242,7 @@ async function fightEnemyVsPlayer(playerCard, enemyCard) {
     console.log(`you got a hit with ${hit} DMG`);
     await hitFeedback(hit, "Enemy");
     playerCardCopy.hp -= hit;
+    playerCardCopy.hp = Number(playerCardCopy.hp.toFixed(3));
     htmlUpdateCard(playerCardCopy, "PlayerRoundDeck");
 
     if (playerCardCopy.hp <= 0) {
@@ -254,6 +257,7 @@ async function fightEnemyVsPlayer(playerCard, enemyCard) {
     console.log(`you hit with ${hit} DMG`);
     await hitFeedback(hit, "Player");
     enemyCardCopy.hp -= hit;
+    enemyCardCopy.hp = Number(enemyCardCopy.hp.toFixed(3));
     htmlUpdateCard(enemyCardCopy, "EnemyDeck");
   }
 

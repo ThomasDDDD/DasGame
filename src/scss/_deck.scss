@@ -2,11 +2,19 @@
   width: 70%;
   height: 35%;
   display: flex;
+  justify-content: center;
+  align-items: center;
   border-radius: 50%;
   background: linear-gradient(20deg, $stilColor18, $stilColor17);
   box-shadow: 0 15px 20px $stilColor18, 0 0 40px inset $stilColor13;
   position: absolute;
   top: 25%;
+  div {
+    font-size: 3rem;
+    font-weight: 900;
+    transition: 0.3s ease-out;
+    z-index: 3;
+  }
 }
 
 #enemyDeck,

@@ -14,6 +14,8 @@ const enemyDeckVisual = document.getElementById(`enemyDeck`);
 const playerRoundDeckVisual = document.getElementById(`playerRoundDeck`);
 const playerHandDeckVisual = document.getElementById(`playerHandDeck`);
 
+const dmgFeedback = document.getElementById(`dmgFeedback`);
+
 startButton.onclick = toNameInput;
 inputButton.onclick = safeNameInput;
 
@@ -39,6 +41,7 @@ export function safeNameInput() {
     // Hier kannst du die Logik fortsetzen, z.B. das nächste Menü anzeigen oder das Spiel starten
   };
 }
+
 //*Bild neu Rendern
 
 export function renderField(enemyDeck, playerRoundDeck, playerHandDeck = []) {
@@ -67,10 +70,11 @@ export function renderField(enemyDeck, playerRoundDeck, playerHandDeck = []) {
   playerRoundDeckVisual.style.display = `flex`;
   playerHandDeckVisual.style.display = `flex`;
 }
-
 //* Für die Zuweisung der Schriftfarbe je Kartentyp wird der Farbarray gebraucht.
+
 const typColor = ["rgb(0, 191, 255)", "rgb(255, 89, 0)", "rgb(234, 255, 0)"];
-//* Diese Function ändert den Inhalt und die Sichbarkeit der Karten im html Document
+
+//* Diese Function ändert den Inhalt und die Sichtbarkeit der Karten im html Document
 
 function htmlWriter(deck, visualDeck) {
   //* Für jede Karte aus dem jeweils übergebenen Deck wird der HTML Inhalt der karte hinzugefügt.
@@ -102,6 +106,8 @@ function htmlWriter(deck, visualDeck) {
     visualDeck.children[i].setAttribute(`cardIndex`, `${i}`);
   }
 }
+
+//* Hier wird jeder Karteninhalt während der Kampfphase aktuallisiert
 
 export function htmlUpdateCard(card, visualDeck) {
   if (visualDeck === "EnemyDeck") {
@@ -139,7 +145,6 @@ export function htmlUpdateCard(card, visualDeck) {
     }
   }
 }
-
 //* Funktion um eine Karte auszuwählen. Hardcode für die playerRoundCards.
 
 export function getIndex() {
@@ -189,20 +194,32 @@ export function moveChoice(card) {
 
 //! Schadenszahlen
 //* zuerst einen Timer das der Kampf nicht instant vorbei ist.
+
 function fightTime(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
-
-//* dann die funktion welche nach jedem Schlag ausgeführt wird.
+//* dann die funktionen welche nach jedem Schlag ausgeführt wird.
 
 export async function hitFeedback(hit, hitFrom) {
   await fightTime(500);
-  const fightColors = ["rgba(139, 225, 0, 0.9)", "rgba(214, 46, 3, 0.9)"];
+  const fightColors = ["rgba(139, 225, 0)", "rgba(214, 46, 3)"];
   let color = "";
   if (hitFrom === "Player") {
     color = fightColors[0];
   } else if (hitFrom === "Enemy") {
     color = fightColors[1];
   }
-  console.log(`hier muss ein Hit rein, mit sagenhaften ${hit} in ${color}`);
+  feedbackVisual(hit, color);
+}
+async function feedbackVisual(hit, color) {
+  dmgFeedback.style.color = `${color}`;
+  dmgFeedback.innerText = `${Math.floor(hit * 100) / 100}`;
+  dmgFeedback.style.display = `block`;
+  await fightTime(150);
+  dmgFeedback.style.transform = `translate(${
+    Math.floor(Math.random() * 150) - 75
+  }px,${Math.floor(Math.random() * 150) - 75}px)`;
+  await fightTime(250);
+  dmgFeedback.style.display = `none`;
+  dmgFeedback.style.transform = `translate(0px,0px)`;
 }

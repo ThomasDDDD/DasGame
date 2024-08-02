@@ -144,11 +144,19 @@ input:focus {
   width: 70%;
   height: 35%;
   display: flex;
+  justify-content: center;
+  align-items: center;
   border-radius: 50%;
   background: linear-gradient(20deg, rgba(78, 78, 88, 0.805), rgba(125, 112, 104, 0.805));
   box-shadow: 0 15px 20px rgba(78, 78, 88, 0.805), 0 0 40px inset rgba(191, 202, 154, 0.805);
   position: absolute;
   top: 25%;
+}
+.fightArea div {
+  font-size: 3rem;
+  font-weight: 900;
+  transition: 0.3s ease-out;
+  z-index: 3;
 }
 
 #enemyDeck,
