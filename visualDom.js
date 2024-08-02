@@ -19,8 +19,6 @@ const dmgFeedback = document.getElementById(`dmgFeedback`);
 startButton.onclick = toNameInput;
 inputButton.onclick = safeNameInput;
 
-console.log(`bis hier gehts`);
-
 function toNameInput() {
   startMenu.style.display = "none";
   inputPartMenu.style.display = `flex`;
@@ -70,6 +68,7 @@ export function renderField(enemyDeck, playerRoundDeck, playerHandDeck = []) {
   playerRoundDeckVisual.style.display = `flex`;
   playerHandDeckVisual.style.display = `flex`;
 }
+
 //* Für die Zuweisung der Schriftfarbe je Kartentyp wird der Farbarray gebraucht.
 
 const typColor = ["rgb(0, 191, 255)", "rgb(255, 89, 0)", "rgb(234, 255, 0)"];
@@ -82,18 +81,10 @@ function htmlWriter(deck, visualDeck) {
   for (let i = 0; i < deck.length; i++) {
     visualDeck.children[i].children[0].innerText = `Level: ${deck[i].level}`;
     visualDeck.children[i].children[1].innerText = `${deck[i].name}`;
-    visualDeck.children[
-      i
-    ].children[2].children[1].children[0].innerText = `${deck[i].hp}`;
-    visualDeck.children[
-      i
-    ].children[3].children[1].children[0].innerText = `${deck[i].dmg}`;
-    visualDeck.children[
-      i
-    ].children[4].children[1].children[0].innerText = `${deck[i].resi}`;
-    visualDeck.children[
-      i
-    ].children[5].children[1].children[0].innerText = `${deck[i].strong}`;
+    visualDeck.children[i].children[2].children[1].children[0].innerText = `${deck[i].hp}`;
+    visualDeck.children[i].children[3].children[1].children[0].innerText = `${deck[i].dmg}`;
+    visualDeck.children[i].children[4].children[1].children[0].innerText = `${deck[i].resi}`;
+    visualDeck.children[i].children[5].children[1].children[0].innerText = `${deck[i].strong}`;
     visualDeck.children[i].children[6].innerText = `${deck[i].typ}`;
     if (deck[i].typ === `Water`) {
       visualDeck.children[i].children[6].style.color = `${typColor[0]}`;
@@ -107,7 +98,7 @@ function htmlWriter(deck, visualDeck) {
   }
 }
 
-//* Hier wird jeder Karteninhalt während der Kampfphase aktuallisiert
+//* Hier wird jeder Karteninhalt visuell während der Kampfphase aktuallisiert
 
 export function htmlUpdateCard(card, visualDeck) {
   if (visualDeck === "EnemyDeck") {
@@ -122,18 +113,10 @@ export function htmlUpdateCard(card, visualDeck) {
     if (visualDeck.children[i].children[1].innerText === card.name) {
       visualDeck.children[i].children[0].innerText = `Level: ${card.level}`;
       visualDeck.children[i].children[1].innerText = `${card.name}`;
-      visualDeck.children[
-        i
-      ].children[2].children[1].children[0].innerText = `${card.hp}`;
-      visualDeck.children[
-        i
-      ].children[3].children[1].children[0].innerText = `${card.dmg}`;
-      visualDeck.children[
-        i
-      ].children[4].children[1].children[0].innerText = `${card.resi}`;
-      visualDeck.children[
-        i
-      ].children[5].children[1].children[0].innerText = `${card.strong}`;
+      visualDeck.children[i].children[2].children[1].children[0].innerText = `${card.hp}`;
+      visualDeck.children[i].children[3].children[1].children[0].innerText = `${card.dmg}`;
+      visualDeck.children[i].children[4].children[1].children[0].innerText = `${card.resi}`;
+      visualDeck.children[i].children[5].children[1].children[0].innerText = `${card.strong}`;
       visualDeck.children[i].children[6].innerText = `${card.typ}`;
       if (card.typ === `Water`) {
         visualDeck.children[i].children[6].style.color = `${typColor[0]}`;
@@ -145,6 +128,7 @@ export function htmlUpdateCard(card, visualDeck) {
     }
   }
 }
+
 //* Funktion um eine Karte auszuwählen. Hardcode für die playerRoundCards.
 
 export function getIndex() {
@@ -172,7 +156,7 @@ export function getIndex() {
   });
 }
 
-//* Diese function bewegt die enemyCard wenn sie vom Computer ausgewählt wurde (hardcode)
+//* Diese Funktion bewegt die jeweils ausgewählte karte zum kampf
 
 export function moveChoice(card) {
   for (let i = 0; i < enemyDeckVisual.children.length; i++) {
@@ -193,15 +177,15 @@ export function moveChoice(card) {
 }
 
 //! Schadenszahlen
-//* zuerst einen Timer das der Kampf nicht instant vorbei ist.
+//* zuerst einen Timer für universellen Verwendung.
 
 function fightTime(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
-//* dann die funktionen welche nach jedem Schlag ausgeführt wird.
+//* dann die Funktionen welche nach jedem Schlag ausgeführt wird.
+//* nachdem ein Hit erfolgte in der round.js. Je nachdem wird eine Farbe für die Schadenszahl gewählt & ein timer von 500ms damit der nächste Schlag delayed
 
 export async function hitFeedback(hit, hitFrom) {
-  await fightTime(500);
   const fightColors = ["rgba(139, 225, 0)", "rgba(214, 46, 3)"];
   let color = "";
   if (hitFrom === "Player") {
@@ -210,16 +194,23 @@ export async function hitFeedback(hit, hitFrom) {
     color = fightColors[1];
   }
   feedbackVisual(hit, color);
+  await fightTime(400);
 }
+
+//* dann wird eine Zahl angezeit & 100ms gewartet damit die transform funktioniert
+//* dann eine Bewegung in Random Richtung der Zahl plus vergrößerung der Schrift für 250ms
+//* danach wird die Zahl ausgeblendet und ihre position und Schriftgröße wieder auf orginal gestetz.
 async function feedbackVisual(hit, color) {
   dmgFeedback.style.color = `${color}`;
   dmgFeedback.innerText = `${Math.floor(hit * 100) / 100}`;
   dmgFeedback.style.display = `block`;
-  await fightTime(150);
-  dmgFeedback.style.transform = `translate(${
+  await fightTime(100);
+  dmgFeedback.style.transform = `translate(${Math.floor(Math.random() * 150) - 75}px,${
     Math.floor(Math.random() * 150) - 75
-  }px,${Math.floor(Math.random() * 150) - 75}px)`;
+  }px)`;
+  dmgFeedback.style.fontSize = `clamp(3rem, 2.5vw, 6rem)`;
   await fightTime(250);
   dmgFeedback.style.display = `none`;
   dmgFeedback.style.transform = `translate(0px,0px)`;
+  dmgFeedback.style.fontSize = `clamp(1.8rem, 2.5vw, 3.8rem)`;
 }
