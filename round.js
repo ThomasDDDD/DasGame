@@ -10,7 +10,13 @@ import {
   level,
   enemyMultiplier,
 } from "./index.js";
-import { getIndex, renderField, moveChoice } from "./visualDom.js";
+import {
+  getIndex,
+  renderField,
+  moveChoice,
+  htmlUpdateCard,
+  hitFeedback,
+} from "./visualDom.js";
 
 //! Kampfrunde
 
@@ -26,9 +32,11 @@ export async function round(playerRoundDeck, enemyDeck) {
   let enemyCard = {};
   while (playerRoundDeck.length > 0 && enemyDeck.length > 0) {
     playerCard = await playerChoise(playerRoundDeck, enemyCard);
+    moveChoice(playerCard);
     enemyCard = enemyChoise(enemyDeck, playerCard);
+    moveChoice(enemyCard);
 
-    fightPlayerVsEnemy(playerCard, enemyCard);
+    await fightPlayerVsEnemy(playerCard, enemyCard);
     if (playerRoundDeck.length === 0 || enemyDeck.length === 0) {
       break;
     }
@@ -43,8 +51,9 @@ export async function round(playerRoundDeck, enemyDeck) {
     enemyCard = enemyChoise(enemyDeck, playerCard);
     moveChoice(enemyCard);
     playerCard = await playerChoise(playerRoundDeck, enemyCard);
-    renderField(enemyDeck, playerRoundDeck, playerHandDeck);
-    fightEnemyVsPlayer(playerCard, enemyCard);
+    moveChoice(playerCard);
+
+    await fightEnemyVsPlayer(playerCard, enemyCard);
 
     console.log(`The Enemy Deck`);
     console.log(enemyDeck);
@@ -165,7 +174,7 @@ function enemyChoise(enemyDeck, playerCard) {
 
 //* ein Kampf: player vs enemy
 
-function fightPlayerVsEnemy(playerCard, enemyCard) {
+async function fightPlayerVsEnemy(playerCard, enemyCard) {
   let playerCardCopy = { ...playerCard };
   let enemyCardCopy = { ...enemyCard };
   const typMultiplier = typMulti(playerCard, enemyCard);
@@ -179,7 +188,9 @@ function fightPlayerVsEnemy(playerCard, enemyCard) {
       ).toFixed(3)
     );
     console.log(`you hit with ${hit} DMG`);
+    await hitFeedback(hit, "Player");
     enemyCardCopy.hp -= hit;
+    htmlUpdateCard(enemyCardCopy, "EnemyDeck");
     if (enemyCardCopy.hp <= 0) {
       break;
     }
@@ -190,10 +201,16 @@ function fightPlayerVsEnemy(playerCard, enemyCard) {
       ).toFixed(3)
     );
     console.log(`you got a hit with ${hit} DMG`);
+    await hitFeedback(hit, "Enemy");
     playerCardCopy.hp -= hit;
+    htmlUpdateCard(playerCardCopy, "PlayerRoundDeck");
   }
+
   //* Karten verbrennen oder in handdeck umschichten. globales Deck aktuallisieren.
+
   cardSortAfterFight(enemyCardCopy, enemyCard, playerCardCopy, playerCard);
+  //* neu Rendern
+  renderField(enemyDeck, playerRoundDeck, playerHandDeck);
 
   //* gwählten Karten für den Spielzug der runde reseten
   playerCard = {};
@@ -207,7 +224,7 @@ function fightPlayerVsEnemy(playerCard, enemyCard) {
 
 //* ein Kampf: enemy vs. player
 
-function fightEnemyVsPlayer(playerCard, enemyCard) {
+async function fightEnemyVsPlayer(playerCard, enemyCard) {
   let playerCardCopy = { ...playerCard };
   let enemyCardCopy = { ...enemyCard };
   const typMultiplier = typMulti(playerCard, enemyCard);
@@ -221,7 +238,10 @@ function fightEnemyVsPlayer(playerCard, enemyCard) {
       ).toFixed(3)
     );
     console.log(`you got a hit with ${hit} DMG`);
+    await hitFeedback(hit, "Enemy");
     playerCardCopy.hp -= hit;
+    htmlUpdateCard(playerCardCopy, "PlayerRoundDeck");
+
     if (playerCardCopy.hp <= 0) {
       break;
     }
@@ -232,13 +252,17 @@ function fightEnemyVsPlayer(playerCard, enemyCard) {
       ).toFixed(3)
     );
     console.log(`you hit with ${hit} DMG`);
+    await hitFeedback(hit, "Player");
     enemyCardCopy.hp -= hit;
+    htmlUpdateCard(enemyCardCopy, "EnemyDeck");
   }
 
   //* Karten verbrennen oder in handdeck umschichten. globales Deck aktuallisieren.
   cardSortAfterFight(enemyCardCopy, enemyCard, playerCardCopy, playerCard);
+  //* neu Rendern
+  renderField(enemyDeck, playerRoundDeck, playerHandDeck);
 
-  //* gwählten Karten für den Spielzug der runde reseten
+  //* gewählten Karten für den Spielzug der runde reseten
   playerCard = {};
   enemyCard = {};
   // console.log(playerCardCopy);
