@@ -77,12 +77,7 @@ export async function start(playerName) {
   const rounds = roundCount.reduce((acc, num) => {
     return acc + num;
   }, 0);
-  const lastSet = bestListGenerate(
-    spielerName,
-    rounds,
-    playerRoundDeckCopy,
-    playerHandDeck
-  );
+  const lastSet = bestListGenerate(spielerName, rounds, playerRoundDeckCopy, playerHandDeck);
   if (rounds >= 1) {
     fs.appendFileSync(filePath, lastSet);
   }

@@ -1,0 +1,55 @@
+//*components
+button {
+  font-size: clamp(1rem, 1.8vw, 2.4rem);
+}
+input {
+  font-size: clamp(1rem, 1.8vw, 2.4rem);
+}
+//*menu
+.menu {
+  p {
+    font-size: clamp(1.2em, 1.8vw, 2.4rem);
+  }
+}
+.info {
+  font-size: clamp(1.6rem, 2.5vw, 3.4rem);
+}
+//*deck
+
+.fightArea {
+  div {
+    font-size: clamp(1.8rem, 2.5vw, 3.8rem);
+  }
+}
+
+#enemyDeck,
+#playerRoundDeck,
+#playerHandDeck {
+  div {
+    font-size: 0.5rem;
+    h3 {
+      font-size: 1.1em;
+    }
+    h4 {
+      font-size: 1.2em;
+    }
+    h5 {
+      font-size: 1.1em;
+    }
+    div {
+      font-size: 0.8em;
+    }
+  }
+}
+#playerHandDeck {
+  div {
+    h3 {
+      font-size: 1em;
+    }
+    h4 {
+      font-size: 0.8em;
+    }
+  }
+}
+
+//font-size: clamp(1.2rem, 5vw, 3.2rem);
