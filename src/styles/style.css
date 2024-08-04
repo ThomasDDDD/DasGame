@@ -26,12 +26,12 @@ input {
 #enemyDeck div h3,
 #playerRoundDeck div h3,
 #playerHandDeck div h3 {
-  font-size: clamp(1.1em, 1.5vw, 1.8em);
+  font-size: clamp(1.1em, 1.4vw, 1.6em);
 }
 #enemyDeck div h4,
 #playerRoundDeck div h4,
 #playerHandDeck div h4 {
-  font-size: clamp(1.1em, 1.2vw, 1.4em);
+  font-size: clamp(1.1em, 1.1vw, 1.2em);
 }
 #enemyDeck div h5,
 #playerRoundDeck div h5,
@@ -149,6 +149,7 @@ input:focus {
   width: 100%;
   height: 25%;
 }
+
 .startMenu {
   display: flex;
 }
@@ -218,8 +219,10 @@ input:focus {
   position: absolute;
   top: 1%;
   z-index: 1;
-  display: none;
+  display: flex;
   justify-content: space-evenly;
+  transform-style: preserve-3d;
+  transform: perspective(2000px);
 }
 #enemyDeck > div,
 #playerRoundDeck > div,
@@ -239,7 +242,8 @@ input:focus {
   font-weight: 500;
   text-align: center;
   padding: 1%;
-  transition: 0.3s;
+  transition: 0.5s;
+  filter: brightness(1);
 }
 #enemyDeck > div h3,
 #playerRoundDeck > div h3,
@@ -272,12 +276,13 @@ input:focus {
   text-align: right;
   letter-spacing: 0.2em;
 }
-#enemyDeck > :hover,
-#playerRoundDeck > :hover,
-#playerHandDeck > :hover {
-  cursor: pointer;
-  border: 2px solid #bfca9a;
-  box-shadow: 0 0 15px #478b85;
+#enemyDeck > div:hover,
+#playerRoundDeck > div:hover,
+#playerHandDeck > div:hover {
+  filter: brightness(1.4);
+  /* die translateZ funktioniert nicht wenn JS im anschluss die display property regelt*/
+  transform: translateZ(250px);
+  border: 2px solid #478b85;
 }
 
 #playerRoundDeck {
@@ -303,8 +308,9 @@ input:focus {
   padding: 0.5%;
   transition: 0.3s;
 }
-#playerHandDeck > :hover {
+#playerHandDeck > div:hover {
   cursor: auto;
+  filter: brightness(1);
   border: 2px solid #478b85;
   box-shadow: 0 0 5px rgba(199, 207, 161, 0.805);
 }

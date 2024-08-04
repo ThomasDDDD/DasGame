@@ -25,8 +25,10 @@
   position: absolute;
   top: 1%;
   z-index: 1;
-  display: none;
+  display: flex;
   justify-content: space-evenly;
+  transform-style: preserve-3d;
+  transform: perspective(2000px);
   > div {
     width: 10vw;
     min-width: 75px;
@@ -64,12 +66,14 @@
         letter-spacing: 0.2em;
       }
     }
-    transition: 0.3s;
-  }
-  > :hover {
-    cursor: pointer;
-    border: 2px solid $stilColor03;
-    box-shadow: 0 0 15px $stilColor06;
+    transition: 0.5s;
+    filter: brightness(1);
+    &:hover {
+      filter: brightness(1.4);
+      /* die translateZ funktioniert nicht wenn JS im anschluss die display property regelt*/
+      transform: translateZ(250px);
+      border: 2px solid $stilColor06;
+    }
   }
 }
 #playerRoundDeck {
@@ -92,10 +96,12 @@
     height: 49%;
     padding: 0.5%;
     transition: 0.3s;
-  }
-  > :hover {
-    cursor: auto;
-    border: 2px solid $stilColor06;
-    box-shadow: 0 0 5px $stilColor12;
+
+    &:hover {
+      cursor: auto;
+      filter: brightness(1);
+      border: 2px solid $stilColor06;
+      box-shadow: 0 0 5px $stilColor12;
+    }
   }
 }

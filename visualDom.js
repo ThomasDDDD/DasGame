@@ -95,6 +95,14 @@ function htmlWriter(deck, visualDeck) {
     }
     visualDeck.children[i].style.display = `flex`;
     visualDeck.children[i].setAttribute(`cardIndex`, `${i}`);
+
+    //* fügt den nicht funktionierenden hover transform translateZ effekt erneut hinzu.  greift so, behindert im Anschluss aber die moveChoice funktion.
+    // visualDeck.children[i].addEventListener("mouseenter", () => {
+    //   visualDeck.children[i].style.transform = `translateZ(150px)`;
+    // });
+    // visualDeck.children[i].addEventListener("mouseleave", () => {
+    //   visualDeck.children[i].style.transform = `translateZ(-150px)`;
+    // });
   }
 }
 
