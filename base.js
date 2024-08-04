@@ -1,10 +1,11 @@
 //! import:
-import rs from "readline-sync";
+
 import { cardNamesGenerator, statCalculate } from "./generate.js";
+import { choiceMateOrRound, renderField } from "./visualDom.js";
 
 //*...
 
-export function base(playerRoundDeck, playerHandDeck) {
+export async function base(playerRoundDeck, playerHandDeck) {
   //* Round Karten in Handdeck schieben und in RoundDeck löschen
   for (let card of playerRoundDeck) {
     playerHandDeck.push(card);
@@ -13,7 +14,7 @@ export function base(playerRoundDeck, playerHandDeck) {
 
   console.log(playerRoundDeck);
   console.log(playerHandDeck);
-
+  renderField(enemyDeck, playerRoundDeck, playerHandDeck);
   //* Auswahl paaren/verbrennen/abbrechen
   const choses = ["Karten paaren?", "Karten verbrennen?", "auf nächsten Kampf vorbereiten"];
 
@@ -30,14 +31,11 @@ export function base(playerRoundDeck, playerHandDeck) {
     }
   }
   while (playerHandDeck.length > 3) {
-    const yesNo = ["YES", "NO"];
-    let mateCard = rs.keyInSelect(
-      yesNo,
-      `möchtest du noch Karten Paaren bevor du dich für die nächste Runde vorbreitest??`
-    );
-    if (mateCard === 0) {
+    let choice = await choiceMateOrRound();
+
+    if (choice === "Paaren") {
       mateCards(playerHandDeck);
-    } else if (mateCard === 1) {
+    } else if (choice === "nächste Runde") {
       break;
     }
   }
@@ -82,8 +80,6 @@ function burnCards(playerHandDeck) {
 //* karten paaren
 
 function mateCards(playerHandDeck) {
-  let cardAuswahl = [];
-  const yesNo = ["YES", "NO", "Abbrechen"];
   let sure = 1;
   let kartenWahlToPair = [];
 

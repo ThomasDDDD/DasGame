@@ -3,12 +3,17 @@ import { start } from "./index.js";
 const startMenu = document.querySelector(`.startMenu`);
 const inputMenu = document.querySelector(`.inputMenu`);
 const inputPartMenu = document.querySelector(`.input`);
+const baseMenu = document.querySelector(`.baseMenu`);
 
 const startButton = document.querySelector(`#startGame`);
 const inputButton = document.querySelector(`#inputBtn`);
 const inputForm = document.getElementById("nameForm");
 const inputField = document.getElementById("input");
 let playerName = "";
+
+const mateButton = document.querySelector(`#pairCard`);
+const burnButton = document.querySelector(`#burnCard`);
+const nextRoundButton = document.querySelector(`#nextRound`);
 
 const enemyDeckVisual = document.getElementById(`enemyDeck`);
 const playerRoundDeckVisual = document.getElementById(`playerRoundDeck`);
@@ -221,4 +226,20 @@ async function feedbackVisual(hit, color) {
   dmgFeedback.style.display = `none`;
   dmgFeedback.style.transform = `translate(0px,0px)`;
   dmgFeedback.style.fontSize = `clamp(1.8rem, 2.5vw, 3.8rem)`;
+}
+
+export async function choiceMateOrRound() {
+  baseMenu.children[2].style.display = `none`;
+  baseMenu.style.display = `flex`;
+  return new Promise((resolve) => {
+    mateButton.addEventListener("click", MateNext);
+    nextRoundButton.addEventListener("click", MateNext);
+    function MateNext(event) {
+      const choice = event.currentTarget.innerText;
+      console.log(choice);
+      resolve(choice);
+      mateButton.removeEventListener("click", onCardClick);
+      nextRoundButton.removeEventListener("click", MateNext);
+    }
+  });
 }
