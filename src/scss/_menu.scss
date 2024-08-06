@@ -15,6 +15,9 @@
     width: 70%;
     height: 10vh;
   }
+  p {
+    width: 70%;
+  }
   form {
     display: flex;
     flex-direction: column;
@@ -40,6 +43,18 @@
 }
 .chooseMenu {
   display: none;
+  width: 70%;
+  form {
+    flex-direction: row;
+    flex-wrap: wrap;
+    p {
+      width: 100%;
+      text-align: center;
+    }
+    button {
+      width: 30%;
+    }
+  }
 }
 .inputMenu {
   display: none;
@@ -49,7 +64,7 @@
 }
 
 .info {
-  display: flex;
+  display: none;
   justify-content: center;
   align-items: center;
   position: absolute;

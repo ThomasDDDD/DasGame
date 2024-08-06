@@ -4,6 +4,9 @@ const startMenu = document.querySelector(`.startMenu`);
 const inputMenu = document.querySelector(`.inputMenu`);
 const inputPartMenu = document.querySelector(`.input`);
 const baseMenu = document.querySelector(`.baseMenu`);
+const chooseMenu = document.querySelector(`.chooseMenu`);
+
+const RoundCounter = document.querySelector(`.info`);
 
 const startButton = document.querySelector(`#startGame`);
 const inputButton = document.querySelector(`#inputBtn`);
@@ -14,6 +17,10 @@ let playerName = "";
 const mateButton = document.querySelector(`#pairCard`);
 const burnButton = document.querySelector(`#burnCard`);
 const nextRoundButton = document.querySelector(`#nextRound`);
+
+const yesButton = document.querySelector(`#yes`);
+const noButton = document.querySelector(`#no`);
+const cancelButton = document.querySelector(`#cancel`);
 
 const enemyDeckVisual = document.getElementById(`enemyDeck`);
 const playerRoundDeckVisual = document.getElementById(`playerRoundDeck`);
@@ -47,7 +54,11 @@ export function safeNameInput() {
 
 //*Bild neu Rendern
 
-export function renderField(enemyDeck, playerRoundDeck, playerHandDeck = []) {
+export function renderField(enemyDeck = [], playerRoundDeck = [], playerHandDeck = []) {
+  //* Rundenzähler einblenden:
+  RoundCounter.style.display = `flex`;
+  baseMenu.style.display = `none`;
+  chooseMenu.style.display = `none`;
   //* zuerst alle Karten wieder ausblenden bevor neue eingeblendet werden.
   const allCardsDisplay = document.querySelectorAll(`.cardBG`);
   for (let card of allCardsDisplay) {
@@ -144,10 +155,10 @@ export function htmlUpdateCard(card, visualDeck) {
 
 //* Funktion um eine Karte auszuwählen. Hardcode für die playerRoundCards.
 
-export function getIndex() {
+export function getIndex(deck) {
   //*? new Promise erzeugt einen return erst dann wenn das darin enthaltene resolve erfolgt ist.
   return new Promise((resolve) => {
-    const cards = document.querySelectorAll(".playerRC");
+    const cards = document.querySelectorAll(`${deck}`);
 
     //* für jede Karte wird ein click eventListener hinzugefügt welcher die onClick function zuweist.
     cards.forEach((card) => {
@@ -184,7 +195,7 @@ export function moveChoice(card) {
   }
   for (let i = 0; i < playerHandDeckVisual.children.length; i++) {
     if (playerHandDeckVisual.children[i].children[1].innerText === card.name) {
-      playerHandDeckVisual.children[i].style.transform = "translateY(-175px)";
+      playerHandDeckVisual.children[i].style.transform = "translateY(-300px)";
     }
   }
 }
@@ -228,18 +239,87 @@ async function feedbackVisual(hit, color) {
   dmgFeedback.style.fontSize = `clamp(1.8rem, 2.5vw, 3.8rem)`;
 }
 
-export async function choiceMateOrRound() {
+//! Funktionen für base.js
+//* erstes Menu, Mate or next Round
+
+export function choiceMateOrRound() {
+  chooseMenu.style.display = `none`;
+  baseMenu.children[0].innerText = `was möchtest du tun??`;
+  baseMenu.children[0].style.display = `block`;
+  baseMenu.children[1].style.display = `block`;
   baseMenu.children[2].style.display = `none`;
+  baseMenu.children[3].style.display = `block`;
   baseMenu.style.display = `flex`;
   return new Promise((resolve) => {
-    mateButton.addEventListener("click", MateNext);
-    nextRoundButton.addEventListener("click", MateNext);
-    function MateNext(event) {
+    mateButton.addEventListener("click", mateNext);
+    nextRoundButton.addEventListener("click", mateNext);
+    function mateNext(event) {
       const choice = event.currentTarget.innerText;
       console.log(choice);
       resolve(choice);
-      mateButton.removeEventListener("click", onCardClick);
-      nextRoundButton.removeEventListener("click", MateNext);
+      mateButton.removeEventListener("click", mateNext);
+      nextRoundButton.removeEventListener("click", mateNext);
     }
   });
+}
+
+//*  falls mehr wie 9 Karten
+
+export function choicemateOrBurn() {
+  chooseMenu.style.display = `none`;
+  baseMenu.children[0].innerText = `Du darfst nur 9 Karten besitzen bevor du in die nächste Runde gehst! was möchtest du nun tun?`;
+  baseMenu.children[0].style.display = `block`;
+  baseMenu.children[1].style.display = `block`;
+  baseMenu.children[2].style.display = `block`;
+  baseMenu.children[3].style.display = `none`;
+  baseMenu.style.display = `flex`;
+
+  return new Promise((resolve) => {
+    mateButton.addEventListener("click", mateBurn);
+    burnButton.addEventListener("click", mateBurn);
+    function mateBurn(event) {
+      const choice = event.currentTarget.innerText;
+      console.log(choice);
+      resolve(choice);
+      mateButton.removeEventListener("click", mateBurn);
+      burnButton.removeEventListener("click", mateBurn);
+    }
+  });
+}
+
+//* Yes No
+
+export function yesNo(text) {
+  baseMenu.style.display = `none`;
+  chooseMenu.style.display = `flex`;
+  return new Promise((resolve) => {
+    yesButton.addEventListener("click", yesNoCancel);
+    noButton.addEventListener("click", yesNoCancel);
+    cancelButton.addEventListener("click", yesNoCancel);
+    function yesNoCancel(event) {
+      event.preventDefault();
+      const choice = event.currentTarget.innerText;
+      console.log(choice);
+      resolve(choice);
+      yesButton.removeEventListener("click", yesNoCancel);
+      noButton.removeEventListener("click", yesNoCancel);
+      cancelButton.removeEventListener("click", yesNoCancel);
+    }
+  });
+}
+
+//* burnen visual
+
+export function baseBurnMateRoundVisual(text) {
+  chooseMenu.style.display = `none`;
+  baseMenu.children[0].innerText = text;
+  baseMenu.children[0].style.display = `block`;
+  baseMenu.children[1].style.display = `none`;
+  baseMenu.children[2].style.display = `none`;
+  baseMenu.children[3].style.display = `none`;
+  baseMenu.style.display = `flex`;
+}
+
+export function roundCountVisual(round) {
+  RoundCounter.children[0].innerText = `${round}. Runde`;
 }

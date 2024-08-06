@@ -10,13 +10,7 @@ import {
   level,
   enemyMultiplier,
 } from "./index.js";
-import {
-  getIndex,
-  renderField,
-  moveChoice,
-  htmlUpdateCard,
-  hitFeedback,
-} from "./visualDom.js";
+import { getIndex, renderField, moveChoice, htmlUpdateCard, hitFeedback, roundCountVisual } from "./visualDom.js";
 
 //! Kampfrunde
 
@@ -72,6 +66,7 @@ export async function round(playerRoundDeck, enemyDeck) {
   } else {
     console.log(`You WON THIS ROUND`);
     roundCount.push(1);
+    roundCountVisual(roundCount.length);
     statReset(playerRoundDeck, playerHandDeck);
     changeLevel(level, enemyMultiplier);
   }
@@ -87,7 +82,7 @@ async function playerChoise(playerRoundDeck, enemyCard) {
   //for (let card of playerRoundDeck) {
   //  auswahl.push(card.name);
   //}
-  const index = await getIndex();
+  const index = await getIndex(`.playerRC`);
   console.log(index);
   const kartenWahl = playerRoundDeck[index];
 
@@ -105,8 +100,7 @@ function enemyChoise(enemyDeck, playerCard) {
     for (let card of enemyDeck) {
       //console.log(`${kartenWahl.level} + ${card.level}`);
       if (
-        (kartenWahl.level <= card.level ||
-          kartenWahl.hp + kartenWahl.dmg <= card.hp + card.dmg) &&
+        (kartenWahl.level <= card.level || kartenWahl.hp + kartenWahl.dmg <= card.hp + card.dmg) &&
         ((playerCard.typ === "Fire" && kartenWahl.typ !== "Water") ||
           (playerCard.typ === "Water" && kartenWahl.typ !== "Electro") ||
           (playerCard.typ === "Electro" && kartenWahl.typ !== "Fire"))
@@ -117,8 +111,7 @@ function enemyChoise(enemyDeck, playerCard) {
           ((playerCard.typ === "Fire" && card.typ === "Water") ||
             (playerCard.typ === "Water" && card.typ === "Electro") ||
             (playerCard.typ === "Electro" && card.typ === "Fire")) &&
-          (playerCard.hp + playerCard.dmg * playerCard.strong <
-            card.hp + card.dmg * card.strong ||
+          (playerCard.hp + playerCard.dmg * playerCard.strong < card.hp + card.dmg * card.strong ||
             playerCard.resi < card.strong ||
             playerCard.hp < card.dmg * card.strong * 3)
         ) {
@@ -126,8 +119,7 @@ function enemyChoise(enemyDeck, playerCard) {
           kartenWahl = card;
         } else if (
           playerCard.level < card.level &&
-          (playerCard.hp + playerCard.dmg * playerCard.strong <
-            card.hp + card.dmg * card.strong ||
+          (playerCard.hp + playerCard.dmg * playerCard.strong < card.hp + card.dmg * card.strong ||
             playerCard.resi < card.strong ||
             playerCard.hp < card.dmg * card.strong * 3)
         ) {
@@ -135,8 +127,7 @@ function enemyChoise(enemyDeck, playerCard) {
           kartenWahl = card;
         } else if (
           playerCard.level - 20 < card.level &&
-          (playerCard.hp + playerCard.dmg * playerCard.strong <
-            card.hp + card.dmg * card.strong ||
+          (playerCard.hp + playerCard.dmg * playerCard.strong < card.hp + card.dmg * card.strong ||
             playerCard.resi < card.strong ||
             playerCard.hp < card.dmg * card.strong * 3)
         ) {
@@ -147,8 +138,7 @@ function enemyChoise(enemyDeck, playerCard) {
           ((playerCard.typ === "Fire" && card.typ === "Water") ||
             (playerCard.typ === "Water" && card.typ === "Electro") ||
             (playerCard.typ === "Electro" && card.typ === "Fire")) &&
-          (playerCard.hp + playerCard.dmg * playerCard.strong <
-            card.hp + card.dmg * card.strong ||
+          (playerCard.hp + playerCard.dmg * playerCard.strong < card.hp + card.dmg * card.strong ||
             playerCard.resi < card.strong ||
             playerCard.hp < card.dmg * card.strong * 3)
         ) {
@@ -159,10 +149,7 @@ function enemyChoise(enemyDeck, playerCard) {
     }
   } else {
     for (let card of enemyDeck) {
-      if (
-        kartenWahl.level <= card.level ||
-        kartenWahl.hp + kartenWahl.dmg < card.hp + card.dmg
-      ) {
+      if (kartenWahl.level <= card.level || kartenWahl.hp + kartenWahl.dmg < card.hp + card.dmg) {
         kartenWahl = card;
       }
     }
@@ -181,12 +168,7 @@ async function fightPlayerVsEnemy(playerCard, enemyCard) {
 
   //* Kampfhandlung
   while (playerCardCopy.hp > 0 && enemyCardCopy.hp > 0) {
-    let hit = Number(
-      (
-        (playerCardCopy.dmg * playerCardCopy.strong * typMultiplier) /
-        enemyCardCopy.resi
-      ).toFixed(3)
-    );
+    let hit = Number(((playerCardCopy.dmg * playerCardCopy.strong * typMultiplier) / enemyCardCopy.resi).toFixed(3));
     console.log(`you hit with ${hit} DMG`);
     await hitFeedback(hit, "Player");
     enemyCardCopy.hp -= hit;
@@ -195,12 +177,7 @@ async function fightPlayerVsEnemy(playerCard, enemyCard) {
     if (enemyCardCopy.hp <= 0) {
       break;
     }
-    hit = Number(
-      (
-        (enemyCardCopy.dmg * enemyCardCopy.strong * typMultiplier) /
-        playerCardCopy.resi
-      ).toFixed(3)
-    );
+    hit = Number(((enemyCardCopy.dmg * enemyCardCopy.strong * typMultiplier) / playerCardCopy.resi).toFixed(3));
     console.log(`you got a hit with ${hit} DMG`);
     await hitFeedback(hit, "Enemy");
     playerCardCopy.hp -= hit;
@@ -233,12 +210,7 @@ async function fightEnemyVsPlayer(playerCard, enemyCard) {
 
   //* Kampfhandlung
   while (playerCardCopy.hp > 0 && enemyCardCopy.hp > 0) {
-    let hit = Number(
-      (
-        (enemyCardCopy.dmg * enemyCardCopy.strong * typMultiplier) /
-        playerCardCopy.resi
-      ).toFixed(3)
-    );
+    let hit = Number(((enemyCardCopy.dmg * enemyCardCopy.strong * typMultiplier) / playerCardCopy.resi).toFixed(3));
     console.log(`you got a hit with ${hit} DMG`);
     await hitFeedback(hit, "Enemy");
     playerCardCopy.hp -= hit;
@@ -248,12 +220,7 @@ async function fightEnemyVsPlayer(playerCard, enemyCard) {
     if (playerCardCopy.hp <= 0) {
       break;
     }
-    hit = Number(
-      (
-        (playerCardCopy.dmg * playerCardCopy.strong * typMultiplier) /
-        enemyCardCopy.resi
-      ).toFixed(3)
-    );
+    hit = Number(((playerCardCopy.dmg * playerCardCopy.strong * typMultiplier) / enemyCardCopy.resi).toFixed(3));
     console.log(`you hit with ${hit} DMG`);
     await hitFeedback(hit, "Player");
     enemyCardCopy.hp -= hit;
@@ -294,12 +261,7 @@ function typMulti(playerCard, enemyCard) {
 }
 
 //* Karten nach Einzelkampf umschlichten
-function cardSortAfterFight(
-  enemyCardCopy,
-  enemyCard,
-  playerCardCopy,
-  playerCard
-) {
+function cardSortAfterFight(enemyCardCopy, enemyCard, playerCardCopy, playerCard) {
   if (enemyCardCopy.hp <= 0) {
     console.log(`Sieg -> Du bekommst ${enemyCard.name} in dein Handdeck.`);
     playerHandDeck.push(enemyCard);
@@ -308,12 +270,8 @@ function cardSortAfterFight(
     index = playerRoundDeck.findIndex((card) => card.name === playerCard.name);
     playerRoundDeck.splice(index, 1, playerCardCopy);
   } else {
-    console.log(
-      `Verloren... ein schwerer Verlust. ${playerCard.name} wird verbrannt.`
-    );
-    let index = playerRoundDeck.findIndex(
-      (card) => card.name === playerCard.name
-    );
+    console.log(`Verloren... ein schwerer Verlust. ${playerCard.name} wird verbrannt.`);
+    let index = playerRoundDeck.findIndex((card) => card.name === playerCard.name);
     playerRoundDeck.splice(index, 1);
     index = enemyDeck.findIndex((card) => card.name === enemyCard.name);
     enemyDeck.splice(index, 1, enemyCardCopy);
