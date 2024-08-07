@@ -34,27 +34,13 @@ export async function round(playerRoundDeck, enemyDeck) {
     if (playerRoundDeck.length === 0 || enemyDeck.length === 0) {
       break;
     }
-    console.log(`The Enemy Deck`);
-    console.log(enemyDeck);
-    console.log(`You fill up your Handdeck:`);
-    console.log(playerHandDeck);
-    console.log(`The Rest of your Round Deck:`);
-    console.log(playerRoundDeck);
     renderField(enemyDeck, playerRoundDeck, playerHandDeck);
-
     enemyCard = enemyChoise(enemyDeck, playerCard);
     moveChoice(enemyCard);
     playerCard = await playerChoise(playerRoundDeck, enemyCard);
     moveChoice(playerCard);
 
     await fightEnemyVsPlayer(playerCard, enemyCard);
-
-    console.log(`The Enemy Deck`);
-    console.log(enemyDeck);
-    console.log(`You fill up your Handdeck:`);
-    console.log(playerHandDeck);
-    console.log(`The Rest of your Round Deck:`);
-    console.log(playerRoundDeck);
     renderField(enemyDeck, playerRoundDeck, playerHandDeck);
   }
   //statReset(playerRoundDeck, playerHandDeck);
