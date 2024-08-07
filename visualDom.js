@@ -59,6 +59,7 @@ export function renderField(enemyDeck = [], playerRoundDeck = [], playerHandDeck
   RoundCounter.style.display = `flex`;
   baseMenu.style.display = `none`;
   chooseMenu.style.display = `none`;
+  playerHandDeckVisual.style.zIndex = `0`;
   //* zuerst alle Karten wieder ausblenden bevor neue eingeblendet werden.
   const allCardsDisplay = document.querySelectorAll(`.cardBG`);
   for (let card of allCardsDisplay) {
@@ -99,8 +100,12 @@ function htmlWriter(deck, visualDeck) {
     visualDeck.children[i].children[1].innerText = `${deck[i].name}`;
     visualDeck.children[i].children[2].children[1].children[0].innerText = `${deck[i].hp}`;
     visualDeck.children[i].children[3].children[1].children[0].innerText = `${deck[i].dmg}`;
-    visualDeck.children[i].children[4].children[1].children[0].innerText = `${deck[i].resi}`;
-    visualDeck.children[i].children[5].children[1].children[0].innerText = `${deck[i].strong}`;
+    visualDeck.children[i].children[4].children[1].children[0].innerText = `${Number(
+      ((deck[i].resi - 1) * 100).toFixed(0)
+    )}%`;
+    visualDeck.children[i].children[5].children[1].children[0].innerText = `${Number(
+      ((deck[i].strong - 1) * 100).toFixed(0)
+    )}%`;
     visualDeck.children[i].children[6].innerText = `${deck[i].typ}`;
     if (deck[i].typ === `Water`) {
       visualDeck.children[i].children[6].style.color = `${typColor[0]}`;
@@ -311,6 +316,7 @@ export function yesNo(text) {
 //* burnen visual
 
 export function baseBurnMateRoundVisual(text) {
+  playerHandDeckVisual.style.zIndex = `3`;
   chooseMenu.style.display = `none`;
   baseMenu.children[0].innerText = text;
   baseMenu.children[0].style.display = `block`;

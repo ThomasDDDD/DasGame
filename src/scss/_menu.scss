@@ -41,8 +41,10 @@
 .baseMenu {
   display: none;
 }
+
 .chooseMenu {
   display: none;
+  z-index: 4;
   width: 70%;
   form {
     flex-direction: row;
@@ -56,6 +58,7 @@
     }
   }
 }
+
 .inputMenu {
   display: none;
 }

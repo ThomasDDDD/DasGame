@@ -112,7 +112,7 @@ export let playerRoundDeck = [
 ];
 
 export let level = [50, 100];
-export let enemyMultiplier = 5;
+export let enemyMultiplier = 7;
 export let playerMultiplier = 1;
 
 //! PROGRAMM STARTET HIER - Spielablauf
