@@ -144,8 +144,12 @@ export function htmlUpdateCard(card, visualDeck) {
       visualDeck.children[i].children[1].innerText = `${card.name}`;
       visualDeck.children[i].children[2].children[1].children[0].innerText = `${card.hp}`;
       visualDeck.children[i].children[3].children[1].children[0].innerText = `${card.dmg}`;
-      visualDeck.children[i].children[4].children[1].children[0].innerText = `${card.resi}`;
-      visualDeck.children[i].children[5].children[1].children[0].innerText = `${card.strong}`;
+      visualDeck.children[i].children[4].children[1].children[0].innerText = `${Number(
+        ((card.resi - 1) * 100).toFixed(0)
+      )}%`;
+      visualDeck.children[i].children[5].children[1].children[0].innerText = `${Number(
+        ((card.strong - 1) * 100).toFixed(0)
+      )}%`;
       visualDeck.children[i].children[6].innerText = `${card.typ}`;
       if (card.typ === `Water`) {
         visualDeck.children[i].children[6].style.color = `${typColor[0]}`;
